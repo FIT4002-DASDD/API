@@ -35,6 +35,7 @@ export class TwitterAdController {
       bots,
       startDate,
       endDate,
+      adType,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
 
@@ -85,6 +86,10 @@ export class TwitterAdController {
 
     if (endDate) {
       whereConditions.push(["adBot.createdAt <= :endDate", { endDate }]);
+    }
+
+    if (adType) {
+      whereConditions.push(["ad.adType = ANY(:adType)", { adType }]);
     }
 
     if (whereConditions.length > 0) {
@@ -166,6 +171,7 @@ export class TwitterAdController {
       bots,
       startDate,
       endDate,
+      adType,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
 
@@ -217,6 +223,10 @@ export class TwitterAdController {
 
     if (endDate) {
       whereConditions.push(["adBot.createdAt <= :endDate", { endDate }]);
+    }
+
+    if (adType) {
+      whereConditions.push(["ad.adType = ANY(:adType)", { adType }]);
     }
 
     if (whereConditions.length > 0) {

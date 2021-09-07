@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { TwitterAdController } from "~/controllers";
+import { TwitterAdType } from "~/models/TwitterAd";
 
 const router = express.Router();
 const controller = new TwitterAdController();
@@ -15,6 +16,7 @@ router.get("/", async (req: Request, res: Response) => {
     startDate,
     endDate,
     groupUnique,
+    adType,
   } = req.query;
   /**
    * Input validation
@@ -39,6 +41,7 @@ router.get("/", async (req: Request, res: Response) => {
         ? new Date(parseInt(endDate as string))
         : null,
     groupUnique: groupUnique === "true" ? true : false,
+    adType: typeof adType === "string" ? [adType] : (adType as string[]),
   };
 
   // Invalid negative offset and limit, return a blank array

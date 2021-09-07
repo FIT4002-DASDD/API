@@ -18,4 +18,5 @@ export interface TwitterAdFilterParams {
   startDate?: Date | null;
   endDate?: Date | null;
   political?: string[];
+  adType?: string[];
 }
