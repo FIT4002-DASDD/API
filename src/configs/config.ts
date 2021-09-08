@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import path from "path";
 const env = process.env;
+process.env.TZ = "UTC";
+
 switch (env.NODE_ENV) {
   case "test":
     dotenv.config({ path: path.resolve(__dirname, "../../.test.env") });
@@ -41,3 +43,4 @@ export const config: Config = {
 };
 console.log(process.env.NODE_ENV);
 console.log(config);
+console.log("AFTER FIXED");

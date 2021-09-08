@@ -66,7 +66,7 @@
     "seed:reset": "npm run schema:drop && npm run schema:sync && npm run seed:run",
     "schema:drop": "npm run typeorm schema:drop",
     "schema:sync": "npm run typeorm schema:sync",
-    "test": "jest --env=node --colors --coverage test --runInBand",
+    "test": "set TZ=UTC && jest --env=node --colors --coverage test --runInBand",
     "import-data": "node -r tsconfig-paths/register -r ts-node/register ./src/google-data/import-data.ts",
     "start:debug": "nodemon --inspect=:9229 src/app.ts"
   }
