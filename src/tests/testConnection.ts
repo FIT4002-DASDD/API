@@ -104,10 +104,9 @@ const connection = {
     const tag3 = GoogleTag.create({ name: "Education" });
 
     await GoogleTag.save([tag1, tag2, tag3]);
-
     const ad1 = GoogleAd.create({
       bot: bot1,
-      createdAt: new Date("2020-11-01 23:52:56"),
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
       loggedIn: true,
       seenOn: "https://www.theatlantic.com/",
       image: "https://project.s3.region.amazonaws.com/image_1.png",
@@ -118,7 +117,7 @@ const connection = {
 
     const ad2 = GoogleAd.create({
       bot: bot1,
-      createdAt: new Date("2020-11-10 23:52:56"),
+      createdAt: new Date("2020-11-10T23:52:56.000Z"),
       loggedIn: false,
       seenOn: "https://www.youtube.com/",
       image: "https://project.s3.region.amazonaws.com/image_2.png",
@@ -128,7 +127,7 @@ const connection = {
 
     const ad3 = GoogleAd.create({
       bot: bot2,
-      createdAt: new Date("2020-11-05 23:52:56"),
+      createdAt: new Date("2020-11-05T23:52:56.000Z"),
       loggedIn: true,
       seenOn: "https://www.bbc.com/news/science-environment-54395534",
       image: "https://project.s3.region.amazonaws.com/image_3.png",
@@ -138,7 +137,7 @@ const connection = {
 
     const ad4 = GoogleAd.create({
       bot: bot2,
-      createdAt: new Date("2020-11-20 23:52:56"),
+      createdAt: new Date("2020-11-20T23:52:56.000Z"),
       loggedIn: false,
       headline: "Headline 2",
       html: "innerHTML",
@@ -227,7 +226,7 @@ const connection = {
 
     const ad1 = GoogleAd.create({
       bot: bot1,
-      createdAt: new Date("2020-11-01 23:52:56"),
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
       loggedIn: true,
       seenOn: "https://www.theatlantic.com/",
       image: "https://project.s3.region.amazonaws.com/image_1.png",
@@ -238,7 +237,7 @@ const connection = {
 
     const ad2 = GoogleAd.create({
       bot: bot1,
-      createdAt: new Date("2020-11-10 23:52:56"),
+      createdAt: new Date("2020-11-10T23:52:56.000Z"),
       loggedIn: false,
       seenOn: "https://www.youtube.com/",
       image: "https://project.s3.region.amazonaws.com/image_2.png",
@@ -248,7 +247,7 @@ const connection = {
 
     const ad3 = GoogleAd.create({
       bot: bot2,
-      createdAt: new Date("2020-11-05 23:52:56"),
+      createdAt: new Date("2020-11-05T23:52:56.000Z"),
       loggedIn: true,
       seenOn: "https://www.bbc.com/news/science-environment-54395534",
       image: "https://project.s3.region.amazonaws.com/image_3.png",
@@ -258,7 +257,7 @@ const connection = {
 
     const ad4 = GoogleAd.create({
       bot: bot3,
-      createdAt: new Date("2020-11-20 23:52:56"),
+      createdAt: new Date("2020-11-20T23:52:56.000Z"),
       loggedIn: false,
       headline: "Headline 2",
       html: "innerHTML",
