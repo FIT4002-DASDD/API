@@ -31,22 +31,22 @@ jobs:
           node-version: "12"
       - run: touch .test.env
       - run: |
-          echo 'PORT=5000 \
-          DB_HOST="localhost" \
-          DB_PORT="5432" \
-          DB_NAME="postgres" \
-          DB_USERNAME="postgres" \
-          DB_PASSWORD="postgres" \
-          DB_SYNC=true \
-          DB_LOGS=false \
-          NODE_ENV=test \
-          CLIENT_ORIGIN=http://localhost:3000 \
-          ' >> .test.env \
+          echo 'PORT=5000
+          DB_HOST="localhost"
+          DB_PORT="5432"
+          DB_NAME="postgres"
+          DB_USERNAME="postgres"
+          DB_PASSWORD="postgres"
+          DB_SYNC=true
+          DB_LOGS=false
+          NODE_ENV=test
+          CLIENT_ORIGIN=http://localhost:3000
+          ' >> .test.env
       - run: yarn install
         working-directory: .
       - run: yarn test
         working-directory: .
-    
+
   publish:
     name: Publish Images to Docker Hub
     needs:
@@ -67,7 +67,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: imuh0001/fit4002-dasdd-api:latest
-
 
   deploy:
     name: Deploy to AWS Elastic Beanstalk
