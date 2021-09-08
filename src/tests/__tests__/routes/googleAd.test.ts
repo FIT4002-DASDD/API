@@ -316,7 +316,7 @@ describe("GET /google/ads/:id", () => {
     const ad1 = GoogleAd.create({
       id: "3883387e-8431-4cf6-ad87-6b274a882ff9",
       bot: bot1,
-      createdAt: new Date("2020-11-20 23:52:56"),
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
       image: "https://project.s3.region.amazonaws.com/image_3.png",
       seenOn: "https://www.bbc.com/news/science-environment-54395534",
       loggedIn: false,
@@ -328,7 +328,7 @@ describe("GET /google/ads/:id", () => {
     const ad2 = GoogleAd.create({
       id: "3883387e-8431-4cf6-ad87-6b274a882ff1",
       bot: bot1,
-      createdAt: new Date("2020-11-11 23:52:56"),
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
       image: "https://project.s3.region.amazonaws.com/image_3.png",
       seenOn: "https://www.bbc.com/news/science-environment-54395534",
       loggedIn: false,
@@ -365,7 +365,7 @@ describe("GET /google/ads/:id", () => {
     const expected = {
       id: "3883387e-8431-4cf6-ad87-6b274a882ff9",
       botId: expect.any(String),
-      createdAt: "2020-11-20T12:52:56.000Z",
+      createdAt: "2020-11-10T23:52:56.000Z",
       image: "https://project.s3.region.amazonaws.com/image_3.png",
       seenOn: "https://www.bbc.com/news/science-environment-54395534",
       loggedIn: false,
@@ -478,7 +478,7 @@ describe("GET /google/ads/:id", () => {
     const expected = {
       adLink: "www.donuts.com/",
       botId: expect.any(String),
-      createdAt: "2020-11-11T12:52:56.000Z",
+      createdAt: "2020-11-10T23:52:56.000Z",
       headline: "Headline 1",
       html: "innerHTML",
       id: "3883387e-8431-4cf6-ad87-6b274a882ff1",
