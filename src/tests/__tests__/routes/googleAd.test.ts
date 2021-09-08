@@ -111,7 +111,7 @@ describe("GET /google/ads", () => {
     expect(records[0]).toMatchObject({
       id: expect.any(String),
       botId: "919222a3-c13e-4c8e-8f23-82fa872512cf",
-      createdAt: "2020-11-01T12:52:56.000Z",
+      createdAt: "2020-11-01T23:52:56.000Z",
       image: "https://project.s3.region.amazonaws.com/image_1.png",
       headline: "Headline 1",
       html: "innerHTML",
@@ -158,7 +158,7 @@ describe("GET /google/ads", () => {
     expect(records[0]).toMatchObject({
       id: expect.any(String),
       botId: "919222a3-c13e-4c8e-8f23-82fa872512cf",
-      createdAt: "2020-11-10T12:52:56.000Z",
+      createdAt: "2020-11-10T23:52:56.000Z",
       image: "https://project.s3.region.amazonaws.com/image_2.png",
       headline: "Headline 2",
       html: null,
@@ -184,7 +184,7 @@ describe("GET /google/ads", () => {
     expect(records[1]).toMatchObject({
       id: expect.any(String),
       botId: "919222a3-c13e-4c8e-8f23-82fa872512cf",
-      createdAt: "2020-11-01T12:52:56.000Z",
+      createdAt: "2020-11-01T23:52:56.000Z",
       image: "https://project.s3.region.amazonaws.com/image_1.png",
       headline: "Headline 1",
       html: "innerHTML",
@@ -256,7 +256,7 @@ describe("GET /google/ads", () => {
     expect(records[0]).toMatchObject({
       id: expect.any(String),
       botId: "919222a3-c13e-4c8e-8f23-82fa872512cf",
-      createdAt: "2020-11-10T12:52:56.000Z",
+      createdAt: "2020-11-10T23:52:56.000Z",
       image: "https://project.s3.region.amazonaws.com/image_2.png",
       headline: "Headline 2",
       html: null,
