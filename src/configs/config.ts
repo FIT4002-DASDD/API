@@ -13,8 +13,8 @@ switch (env.NODE_ENV) {
   case "prod":
     dotenv.config({ path: path.resolve(__dirname, "../../.prod.env") });
     break;
-  // default:
-  //   dotenv.config({ path: path.resolve(__dirname, "../../.dev.env") });
+  default:
+    dotenv.config({ path: path.resolve(__dirname, "../../.dev.env") });
 }
 
 export type Config = {
