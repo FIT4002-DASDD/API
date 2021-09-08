@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { TwitterAdController } from "~/controllers";
+import { TwitterAdType } from "~/models/TwitterAd";
 
 const router = express.Router();
 const controller = new TwitterAdController();
@@ -14,6 +15,8 @@ router.get("/", async (req: Request, res: Response) => {
     bots,
     startDate,
     endDate,
+    groupUnique,
+    adType,
   } = req.query;
   /**
    * Input validation
@@ -24,8 +27,8 @@ router.get("/", async (req: Request, res: Response) => {
   const queryParams = {
     offset: offset ? parseInt(offset as string) : 0, // page offset
     limit: limit ? parseInt(limit as string) : 30, // number of items in response
-    // political:
-    //   typeof political === "string" ? [political] : (political as string[]),
+    political:
+      typeof political === "string" ? [political] : (political as string[]),
     // gender: typeof gender === "string" ? [gender] : (gender as string[]),
     tag: typeof tag === "string" ? [tag] : (tag as string[]),
     bots: typeof bots === "string" ? [bots] : (bots as string[]),
@@ -37,6 +40,8 @@ router.get("/", async (req: Request, res: Response) => {
       typeof endDate === "string"
         ? new Date(parseInt(endDate as string))
         : null,
+    groupUnique: groupUnique === "true" ? true : false,
+    adType: typeof adType === "string" ? [adType] : (adType as string[]),
   };
 
   // Invalid negative offset and limit, return a blank array
@@ -44,10 +49,14 @@ router.get("/", async (req: Request, res: Response) => {
     res.send([]);
     return;
   }
-  console.log(queryParams);
 
+  let response;
+  if (groupUnique) {
+    response = await controller.getAdUniques(queryParams);
+  } else {
+    response = await controller.getAdInstances(queryParams);
+  }
   // Update the response with the Links data
-  const response = await controller.getAll(queryParams);
   const metadata = response.metadata;
   const links = metadata.links;
 

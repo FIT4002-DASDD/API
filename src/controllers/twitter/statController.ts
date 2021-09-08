@@ -1,31 +1,27 @@
 import e from "cors";
 import { createQueryBuilder, getConnection } from "typeorm";
-import { TwitterAd, TwitterAdTag, TwitterBot } from "~/models";
+import {
+  TwitterAd,
+  TwitterAdSeenByBot,
+  TwitterAdTag,
+  TwitterBot,
+} from "~/models";
 
 export class TwitterStatController {
   async getBotAlignmentStat() {
-    // let res: any = [];
-    // let rawRes = await TwitterBot.createQueryBuilder("bot")
-    //   .select("COUNT(bot.id)", "count")
-    //   .addSelect("bot.politicalRanking", "label")
-    //   .groupBy("bot.politicalRanking")
-    //   .orderBy("bot.politicalRanking")
-    //   .getRawMany();
-    // res.push({
-    //   type: "political ranking",
-    //   data: rawRes,
-    // });
-    // rawRes = await TwitterBot.createQueryBuilder("bot")
-    //   .select("COUNT(bot.id)", "count")
-    //   .addSelect("bot.gender", "label")
-    //   .groupBy("bot.gender")
-    //   .orderBy("bot.gender")
-    //   .getRawMany();
-    // res.push({
-    //   type: "gender",
-    //   data: rawRes,
-    // });
-    // return res;
+    let res: any = [];
+    let rawRes = await TwitterBot.createQueryBuilder("bot")
+      .select("COUNT(bot.id)", "count")
+      .addSelect("bot.politicalRanking", "label")
+      .groupBy("bot.politicalRanking")
+      .orderBy("bot.politicalRanking")
+      .getRawMany();
+    res.push({
+      type: "political ranking",
+      data: rawRes,
+    });
+
+    return res;
   }
 
   async getCategoryStat() {
@@ -45,28 +41,30 @@ export class TwitterStatController {
   }
 
   async getCategoryBotStat() {
-    // let rawRes = await TwitterAd.createQueryBuilder("ad")
-    //   .leftJoin("ad.adTags", "adTags")
-    //   .leftJoin("adTags.tag", "tag")
-    //   .leftJoin("ad.bot", "bot")
-    //   .select(
-    //     `SUM(CASE
-    //     WHEN bot.gender = 'Male' THEN 1
-    //     WHEN bot.gender = 'Female' THEN 0
-    //     ELSE 0.5 END)/COUNT(ad.id)`,
-    //     "avgGender"
-    //   )
-    //   .addSelect("AVG(bot.politicalRanking)", "avgPolitical")
-    //   .addSelect("tag.name", "label")
-    //   .groupBy("tag.name")
-    //   .getRawMany();
-    // rawRes.forEach((e) => {
-    //   if (e.label === null) {
-    //     e.label = "uncategorised";
-    //   }
-    // });
-    // console.log(rawRes);
-    // return rawRes;
+    let rawRes = await TwitterAd.createQueryBuilder("ad")
+      .leftJoin("ad.adTags", "adTags")
+      .leftJoin("adTags.tag", "tag")
+      .leftJoin("ad.adBot", "adBot")
+      .leftJoin("adBot.bot", "bot")
+      // .select(
+      //   `SUM(CASE
+      //   WHEN bot.gender = 'Male' THEN 1
+      //   WHEN bot.gender = 'Female' THEN 0
+      //   ELSE 0.5 END)/COUNT(ad.id)`,
+      //   "avgGender"
+      // )
+      .select("AVG(bot.politicalRanking)", "avgPolitical")
+      .addSelect("tag.name", "label")
+      .groupBy("tag.name")
+      .getRawMany();
+
+    rawRes.forEach((e) => {
+      if (e.label === null) {
+        e.label = "uncategorised";
+      }
+    });
+    console.log(rawRes);
+    return rawRes;
   }
 
   async getAdCounts(startDate: Date) {
@@ -74,7 +72,8 @@ export class TwitterStatController {
     const endDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
     const end = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-01`;
 
-    const twitterAdTableName = TwitterAd.getRepository().metadata.tableName;
+    const twitterAdTableName = TwitterAdSeenByBot.getRepository().metadata
+      .tableName;
     const rawRes = await getConnection().manager.query(
       `
         SELECT date, count(a."createdAt") AS count
@@ -91,11 +90,17 @@ export class TwitterStatController {
   }
 
   async getAdStats() {
-    const adTotal = (
+    const adUniqueCount = (
       await TwitterAd.createQueryBuilder("ad")
         .select("COUNT(*)", "adCount")
         .getRawOne()
     ).adCount;
+
+    const adSeenCount = (
+      await TwitterAdSeenByBot.createQueryBuilder("adBot")
+        .select("COUNT(*)", "adBot")
+        .getRawOne()
+    ).adBot;
 
     const adTagged = (
       await TwitterAdTag.createQueryBuilder("adtag")
@@ -106,9 +111,11 @@ export class TwitterStatController {
     const botCount = (await TwitterBot.findAndCount())[1];
 
     return {
-      adTotal,
+      adUniqueCount, // Unique ad count (i.e. # of entries in TwitterAd)
+      adSeenCount, // All instances of ads seend (i.e. # of entries in TwitterAdSeenByBot)
       adTagged,
-      adPerBot: adTotal / botCount,
+      adUniquePerBot: adUniqueCount / botCount,
+      adSeenPerBot: adSeenCount / botCount,
     };
   }
 }

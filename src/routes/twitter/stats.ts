@@ -51,10 +51,6 @@ router.get(
   }
 );
 
-/**
- * example return:
- * {"adTotal":137303,"adTagged":80492,"adPerBot":5720.958333333333}
- */
 router.get(
   "/ad-stat",
   async (req: Request, res: Response, next: NextFunction) => {

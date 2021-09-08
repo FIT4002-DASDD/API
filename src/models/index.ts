@@ -6,3 +6,4 @@ export * from "./TwitterBot";
 export * from "./TwitterAd";
 export * from "./TwitterAdTag";
 export * from "./TwitterTag";
+export * from "./TwitterAdSeenByBot";
