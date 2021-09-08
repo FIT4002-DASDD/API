@@ -68,30 +68,33 @@ router.get("/", async (req: Request, res: Response) => {
   // for self link
   links.self = originalURL;
   // for first link
-  links.first = originalURL.replace(String(queryParams.offset), "0");
+  links.first = originalURL.replace(
+    `offset=${String(queryParams.offset)}`,
+    "offset=0"
+  );
   // for last link
   links.last = originalURL.replace(
-    String(queryParams.offset),
-    String(
+    `offset=${String(queryParams.offset)}`,
+    `offset=${String(
       Math.floor(metadata.total_count / metadata.per_page) * metadata.per_page
-    )
+    )}`
   );
   // for next link
   const nextOffset = queryParams.offset + metadata.per_page;
   if (nextOffset < metadata.total_count) {
     links.next = originalURL.replace(
-      String(queryParams.offset),
-      String(queryParams.offset + metadata.per_page)
+      `offset=${String(queryParams.offset)}`,
+      `offset=${String(queryParams.offset + metadata.per_page)}`
     );
   } else {
     links.next = originalURL;
   }
   // for previous link
   const previousOffset = queryParams.offset - metadata.per_page;
-  if (previousOffset > 0) {
+  if (previousOffset >= 0) {
     links.previous = originalURL.replace(
-      String(queryParams.offset),
-      String(previousOffset)
+      `offset=${String(queryParams.offset)}`,
+      `offset=${String(previousOffset)}`
     );
   } else {
     links.previous = originalURL;

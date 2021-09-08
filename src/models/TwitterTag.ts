@@ -53,7 +53,7 @@ export class TwitterTag extends BaseEntity {
       `
       SELECT SETVAL(
         (SELECT PG_GET_SERIAL_SEQUENCE('"${tableName}"', 'id')),
-        GREATEST(NEXTVAL(PG_GET_SERIAL_SEQUENCE('"${tableName}"', 'id'))-1, (SELECT (MAX("id")) FROM "${tableName}"))
+        GREATEST(NEXTVAL(PG_GET_SERIAL_SEQUENCE('"${tableName}"', 'id'))-1, (SELECT (MAX("id")) FROM "${tableName}"), 1)
       );
       `
     );

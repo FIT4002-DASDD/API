@@ -23,7 +23,7 @@ afterEach(async (done) => {
   done();
 });
 
-test("GET /google/bots - Get all bots #BOT-API-1", async (done) => {
+test("GET /google/bots - Get all bots #API-1", async (done) => {
   const res = await supertest(app)
     .get("/google/bots")
     .expect("Content-Type", /json/)
@@ -37,7 +37,7 @@ test("GET /google/bots - Get all bots #BOT-API-1", async (done) => {
 });
 
 describe("GET /google/bot/:username", () => {
-  test("Get bot with valid username #BOT-API-2 ", async (done) => {
+  test("Get bot with valid username #API-2 ", async (done) => {
     const res = await supertest(app)
       .get("/google/bots/bot1")
       .expect("Content-Type", /json/)
@@ -63,7 +63,7 @@ describe("GET /google/bot/:username", () => {
     done();
   });
 
-  test("Get bot with invalid username #BOT-API-3", async (done) => {
+  test("Get bot with invalid username #API-3", async (done) => {
     const res = await supertest(app)
       .get("/google/bots/iojio")
       .expect("Content-Type", /json/)

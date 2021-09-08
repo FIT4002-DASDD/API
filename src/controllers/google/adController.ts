@@ -33,7 +33,6 @@ export class GoogleAdController {
       endDate,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
-
     // TODO: Testing needed to confirm different combinations of query params work
     let findOptions: FindManyOptions = {
       take: limit ? limit : 30,
@@ -114,16 +113,8 @@ export class GoogleAdController {
       },
     });
 
-    let currentOffset = 0;
-    let currentLimit = 30;
-
-    if (offset !== undefined) {
-      currentOffset = offset;
-    }
-
-    if (limit !== undefined) {
-      const currentLimit = limit;
-    }
+    const currentOffset = offset ? offset : 0;
+    const currentLimit = limit ? limit : 30;
 
     const currentPage = currentOffset / currentLimit;
 

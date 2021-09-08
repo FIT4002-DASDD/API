@@ -1,0 +1,48 @@
+name: FIT4002 DASDD API CI
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  test_API:
+    name: Test API side functionalities
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test using Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+      - run: touch .test.env
+      - run: |
+          echo 'PORT=5000
+          DB_HOST="localhost"
+          DB_PORT="5432"
+          DB_NAME="postgres"
+          DB_USERNAME="postgres"
+          DB_PASSWORD="postgres"
+          DB_SYNC=true
+          DB_LOGS=false
+          NODE_ENV=test
+          CLIENT_ORIGIN=http://localhost:3000
+          ' >> .test.env
+      - run: yarn install
+        working-directory: .
+      - run: yarn test
+        working-directory: .
