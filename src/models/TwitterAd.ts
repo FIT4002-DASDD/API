@@ -42,6 +42,9 @@ export class TwitterAd extends BaseEntity implements ITwitterAd {
   @Column("varchar", { nullable: true })
   tweetLink?: string;
 
+  @Column("varchar", { nullable: true })
+  image?: string;
+
   @OneToMany(() => TwitterAdTag, (adToTag) => adToTag.ad)
   adTags?: TwitterAdTag[];
 

@@ -5,7 +5,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { TwitterAd, TwitterBot } from ".";
@@ -36,9 +35,6 @@ export class TwitterAdSeenByBot extends BaseEntity {
   })
   // @PrimaryColumn()
   createdAt!: Date;
-
-  @Column("varchar", { nullable: true })
-  image?: string;
 
   @AfterLoad()
   private setTags() {
