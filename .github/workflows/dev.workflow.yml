@@ -31,7 +31,7 @@ jobs:
           node-version: "12"
       - run: touch .test.env
       - run: |
-        echo "PORT=5000 \
+        echo 'PORT=5000 \
         DB_HOST="localhost" \
         DB_PORT="5432" \
         DB_NAME="postgres" \
@@ -41,7 +41,7 @@ jobs:
         DB_LOGS=false \
         NODE_ENV=test \
         CLIENT_ORIGIN=http://localhost:3000 \
-        " >> .test.env \
+        ' >> .test.env \
       - run: yarn install
         working-directory: .
       - run: yarn test
