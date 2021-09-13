@@ -37,6 +37,9 @@ export class TwitterBot extends BaseEntity {
   @Column("varchar", { nullable: true })
   password!: string;
 
+  @Column("varchar", { nullable: true })
+  phone!: string;
+
   @Column({
     type: "enum",
     enum: TwitterBot.BOT_TYPE,
