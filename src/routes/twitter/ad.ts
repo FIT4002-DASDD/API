@@ -10,9 +10,9 @@ router.get("/", async (req: Request, res: Response) => {
     offset,
     limit,
     political,
-    gender,
     tag,
     bots,
+    botType,
     startDate,
     endDate,
     groupUnique,
@@ -29,9 +29,9 @@ router.get("/", async (req: Request, res: Response) => {
     limit: limit ? parseInt(limit as string) : 30, // number of items in response
     political:
       typeof political === "string" ? [political] : (political as string[]),
-    // gender: typeof gender === "string" ? [gender] : (gender as string[]),
     tag: typeof tag === "string" ? [tag] : (tag as string[]),
     bots: typeof bots === "string" ? [bots] : (bots as string[]),
+    botType: typeof botType === "string" ? [botType] : (botType as string[]),
     startDate:
       typeof startDate === "string"
         ? new Date(parseInt(startDate as string))

@@ -34,10 +34,10 @@ export class TwitterBot extends BaseEntity {
   @Column("varchar")
   username!: string;
 
-  @Column("varchar", { nullable: true })
+  @Column("varchar", { nullable: true, select: false }) // Don't select password by default
   password!: string;
 
-  @Column("varchar", { nullable: true })
+  @Column("varchar", { nullable: true, select: false })
   phone!: string;
 
   @Column({
