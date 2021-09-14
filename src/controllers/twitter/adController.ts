@@ -29,17 +29,16 @@ export class TwitterAdController {
     const {
       limit,
       offset,
-      // gender,
       tag,
       political,
       bots,
+      botType,
       startDate,
       endDate,
       adType,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
 
-    // TODO: Testing needed to confirm different combinations of query params work
     let findOptions: FindManyOptions = {
       take: limit ? limit : 30,
       skip: offset ? offset : 0,
@@ -61,9 +60,6 @@ export class TwitterAdController {
     // Workaround for finding entity with relation condition: https://github.com/typeorm/typeorm/issues/4396#issuecomment-566254087
 
     const whereConditions: any[][] = [];
-    // if (gender) {
-    //   whereConditions.push(["bot.gender ILIKE ANY(:gender)", { gender }]);
-    // }
 
     if (tag) {
       whereConditions.push(["tags.name ILIKE ANY(:tag)", { tag }]);
@@ -78,6 +74,13 @@ export class TwitterAdController {
 
     if (bots) {
       whereConditions.push(["bot.id = ANY(:bots)", { bots }]);
+    }
+
+    if (botType) {
+      whereConditions.push([
+        "LOWER(bot.type::text) = ANY(:botType)",
+        { botType: botType.map((e) => e.toLowerCase()) },
+      ]);
     }
 
     if (startDate) {
@@ -165,17 +168,16 @@ export class TwitterAdController {
     const {
       limit,
       offset,
-      // gender,
       tag,
       political,
       bots,
+      botType,
       startDate,
       endDate,
       adType,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
 
-    // TODO: Testing needed to confirm different combinations of query params work
     let findOptions: FindManyOptions = {
       take: limit ? limit : 30,
       skip: offset ? offset : 0,
@@ -197,9 +199,6 @@ export class TwitterAdController {
     // Workaround for finding entity with relation condition: https://github.com/typeorm/typeorm/issues/4396#issuecomment-566254087
 
     const whereConditions: any[][] = [];
-    // if (gender) {
-    //   whereConditions.push(["bot.gender ILIKE ANY(:gender)", { gender }]);
-    // }
 
     if (tag) {
       whereConditions.push(["tags.name ILIKE ANY(:tag)", { tag }]);
@@ -216,7 +215,13 @@ export class TwitterAdController {
       whereConditions.push(["bot.id = ANY(:bots)", { bots }]);
     }
 
-    console.log("90234: " + startDate);
+    if (botType) {
+      whereConditions.push([
+        "LOWER(bot.type::text) = ANY(:botType)",
+        { botType: botType.map((e) => e.toLowerCase()) },
+      ]);
+    }
+
     if (startDate) {
       whereConditions.push(["adBot.createdAt >= :startDate", { startDate }]);
     }
