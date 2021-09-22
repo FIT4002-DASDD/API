@@ -46,16 +46,6 @@ jobs:
         working-directory: .
       - run: yarn test
         working-directory: .
-      - name: Deploy report page
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          source-directory: 'coverage'
-          destination-github-username: 'fit4002-dasdd'
-          destination-repository-name: 'api-test-report'
-          user-email: 'github-actions[bot]@users.noreply.github.com'
-          target-branch: master
 
   publish:
     name: Publish Images to Docker Hub
