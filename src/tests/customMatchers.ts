@@ -21,7 +21,7 @@ expect.extend({
   },
 });
 
-export const botMatcherSchema = {
+export const googleBotMatcherSchema = {
   id: expect.any(String),
   username: expect.any(String),
   gender: expect.toBeOneOf(["male", "female"]),
@@ -35,12 +35,36 @@ export const botMatcherSchema = {
   politicalRanking: expect.toBeOneOf([0, 1, 2, 3, 4]),
 };
 
-export const adMatcherSchema = {
+export const googleAdMatcherSchema = {
   id: expect.any(String),
-  bot: expect.objectContaining(botMatcherSchema),
+  bot: expect.objectContaining(googleBotMatcherSchema),
   createdAt: expect.any(String),
   loggedIn: expect.toBeTypeOrNull(Boolean),
   headline: expect.toBeTypeOrNull(String),
   html: expect.toBeTypeOrNull(String),
   adLink: expect.toBeTypeOrNull(String),
+};
+
+export const twitterBotMatcherSchema = {
+  id: expect.any(String),
+  username: expect.any(String),
+  type: expect.any(String),
+  politicalRanking: expect.toBeOneOf([0, 1, 2, 3, 4]),
+  followedAccounts: expect.any([]),
+  relevantTags: expect.any([]),
+  dob: expect.any(Date)
+};
+
+export const twitterAdMatcherSchema = {
+  adSeenId: expect.any(Number),
+  adId: expect.any(String),
+  createdAt: expect.any(String),
+  bot: expect.objectContaining(googleBotMatcherSchema),
+  promoterHandle: expect.any(String),
+  content: expect.any(String),
+  officialLink: expect.any(String),
+  tweetLink: expect.any(String),
+  image: expect.any(String),
+  adType: expect.any(String),
+  tags: expect.any([]),
 };

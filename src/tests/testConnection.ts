@@ -66,7 +66,7 @@ const connection = {
     // TODO: drop all sequences
   },
 
-  async createTestData() {
+  async createGoogleTestData() {
     getConnection();
     const bot1 = GoogleBot.create({
       id: "919222a3-c13e-4c8e-8f23-82fa872512cf",
@@ -172,7 +172,7 @@ const connection = {
     await GoogleAdTag.save(adTags);
   },
 
-  async createStatsTestData() {
+  async createGoogleStatsTestData() {
     getConnection();
     const bot1 = GoogleBot.create({
       username: "bot1",

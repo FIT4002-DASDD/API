@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { app, server } from "~/app";
-import { botMatcherSchema } from "~/tests/customMatchers";
+import { googleBotMatcherSchema } from "~/tests/customMatchers";
 import { connection } from "../../testConnection";
 
 beforeAll(async (done) => {
@@ -13,7 +13,7 @@ afterAll(async (done) => {
 });
 
 beforeEach(async (done) => {
-  await connection.createTestData();
+  await connection.createGoogleTestData();
   done();
 });
 
@@ -31,7 +31,7 @@ test("GET /google/bots - Get all bots #API-1", async (done) => {
 
   const { body } = res;
   for (const element of body) {
-    expect(element).toMatchObject(botMatcherSchema);
+    expect(element).toMatchObject(googleBotMatcherSchema);
   }
   done();
 });

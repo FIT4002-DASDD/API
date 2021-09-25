@@ -2,7 +2,7 @@ import supertest from "supertest";
 import { DeepPartial } from "typeorm";
 import { app, server } from "~/app";
 import { GoogleBot, GoogleTag, GoogleAd, GoogleAdTag } from "~/models";
-import { adMatcherSchema, botMatcherSchema } from "~/tests/customMatchers";
+import { googleAdMatcherSchema, googleBotMatcherSchema } from "~/tests/customMatchers";
 import { connection } from "../../testConnection";
 
 
@@ -20,7 +20,7 @@ afterAll(async (done) => {
 describe("GET /google/ads", () => {
 
   beforeEach(async (done) => {
-    await connection.createTestData();
+    await connection.createGoogleTestData();
     done();
   });
 
@@ -51,7 +51,7 @@ describe("GET /google/ads", () => {
       last: expect.any(String),
     });
     for (const element of body.records) {
-      expect(element).toMatchObject(adMatcherSchema);
+      expect(element).toMatchObject(googleAdMatcherSchema);
     }
     done();
   });
