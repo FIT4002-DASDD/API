@@ -9,6 +9,12 @@ import {
 } from "typeorm";
 import { TwitterAd, TwitterBot } from ".";
 
+/**
+ * Class to represent when an Ad is seen, regardless if it's been seen before.
+ * This is essentially a join table for TwitterAd and TwitterBot many-to-many relationship
+ *
+ * For unique ads, see {@link TwitterAd TwitterAd}
+ */
 @Entity()
 export class TwitterAdSeenByBot extends BaseEntity {
   @PrimaryGeneratedColumn()

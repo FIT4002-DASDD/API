@@ -7,11 +7,13 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
 } from "typeorm";
 import { GoogleAdTag, GoogleBot } from ".";
 import { GoogleTag } from "./GoogleTag";
 
+/**
+ * Class to represent a Google Ad
+ */
 @Entity()
 export class GoogleAd extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")

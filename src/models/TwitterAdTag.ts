@@ -7,6 +7,9 @@ import {
 } from "typeorm";
 import { TwitterAd, TwitterTag } from ".";
 
+/**
+ * Class/join table to represent TwitterAd and TwitterTag many-to-many relationship
+ */
 @Entity()
 export class TwitterAdTag extends BaseEntity {
   @PrimaryColumn()
