@@ -21,8 +21,6 @@ router.get(
     } = req.query;
     /**
      * Input validation
-     *
-     * TODO: Testing needed to confirm different combinations of query params work
      * TODO: possible refactoring using express-validator?
      */
     const queryParams = {

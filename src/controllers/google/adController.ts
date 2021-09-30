@@ -1,6 +1,6 @@
 import { DeleteResult, FindManyOptions, In } from "typeorm";
-import { GoogleAdFilterParams, PaginationParams } from "~/helpers/types";
 import { GoogleAd, GoogleAdTag } from "~/models";
+import { GoogleAdFilterParams, PaginationParams } from "~/typings/global";
 
 export class GoogleAdController {
   async getAll(
@@ -17,7 +17,6 @@ export class GoogleAdController {
       endDate,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
-    // TODO: Testing needed to confirm different combinations of query params work
     let findOptions: FindManyOptions = {
       take: limit ? limit : 30,
       skip: offset ? offset : 0,

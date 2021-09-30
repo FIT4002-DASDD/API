@@ -8,7 +8,6 @@ import {
 import { GoogleAd, GoogleTag } from ".";
 
 @Entity()
-// TODO: cascade?
 export class GoogleAdTag extends BaseEntity {
   @PrimaryColumn()
   adId!: string;

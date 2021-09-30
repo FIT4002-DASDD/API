@@ -1,10 +1,7 @@
 import { DeleteResult, FindManyOptions, In } from "typeorm";
-import {
-  GoogleAdFilterParams,
-  PaginationParams,
-  TwitterAdFilterParams,
-} from "~/helpers/types";
+
 import { TwitterAd, TwitterAdSeenByBot, TwitterAdTag } from "~/models";
+import { PaginationParams, TwitterAdFilterParams } from "~/typings/global";
 
 export class TwitterAdController {
   async getAdInstances(
@@ -42,7 +39,6 @@ export class TwitterAdController {
     };
 
     // Workaround for finding entity with relation condition: https://github.com/typeorm/typeorm/issues/4396#issuecomment-566254087
-
     const whereConditions: any[][] = [];
 
     if (tag) {

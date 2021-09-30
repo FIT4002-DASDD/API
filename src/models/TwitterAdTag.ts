@@ -8,7 +8,6 @@ import {
 import { TwitterAd, TwitterTag } from ".";
 
 @Entity()
-// TODO: cascade?
 export class TwitterAdTag extends BaseEntity {
   @PrimaryColumn()
   adId!: string;
