@@ -2,26 +2,10 @@ import { DeleteResult, FindManyOptions, In } from "typeorm";
 import { GoogleAdFilterParams, PaginationParams } from "~/helpers/types";
 import { GoogleAd, GoogleAdTag } from "~/models";
 
-interface Metadata {
-  page: number;
-  per_page: number;
-  page_count: number;
-  total_count: number;
-  links: Links;
-}
-
-interface Links {
-  self: string;
-  first: string;
-  previous: string;
-  next: string;
-  last: string;
-}
-
 export class GoogleAdController {
   async getAll(
     queryParams: PaginationParams & GoogleAdFilterParams
-  ): Promise<{ metadata: Metadata; records: GoogleAd[] }> {
+  ): Promise<{ totalCount: number; recordCount: number; records: GoogleAd[] }> {
     const {
       limit,
       offset,
@@ -113,37 +97,16 @@ export class GoogleAdController {
       },
     });
 
-    const currentOffset = offset ? offset : 0;
-    const currentLimit = limit ? limit : 30;
-
-    const currentPage = currentOffset / currentLimit;
-
     delete findOptions.take;
     delete findOptions.skip;
 
     const totalAdNumber = await GoogleAd.count(findOptions);
 
-    let currentLink: Links = {
-      self: "",
-      first: "",
-      previous: "",
-      next: "",
-      last: "",
-    };
-
-    // get meta data
-    const metadataForAd: Metadata = {
-      page: currentPage,
-      per_page: currentLimit,
-      page_count: filteredAdNumber,
-      total_count: totalAdNumber,
-      links: currentLink,
-    };
-
     // get ads with the required relations and data
     return {
-      metadata: metadataForAd,
       records: ads,
+      totalCount: totalAdNumber,
+      recordCount: filteredAdNumber,
     };
   }
 

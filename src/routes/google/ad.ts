@@ -1,109 +1,75 @@
 import express, { NextFunction, Request, Response } from "express";
 import { GoogleAdController } from "~/controllers/google/adController";
+import paginate from "~/helpers/paginate";
 
 const router = express.Router();
 const controller = new GoogleAdController();
 
-router.get("/", async (req: Request, res: Response) => {
-  let {
-    offset,
-    limit,
-    political,
-    gender,
-    tag,
-    bots,
-    startDate,
-    endDate,
-  } = req.query;
-  /**
-   * Input validation
-   *
-   * TODO: Testing needed to confirm different combinations of query params work
-   * TODO: possible refactoring using express-validator?
-   */
-  const queryParams = {
-    offset: offset ? parseInt(offset as string) : 0, // page offset
-    limit: limit ? parseInt(limit as string) : 30, // number of items in response
-    political:
-      typeof political === "string" ? [political] : (political as string[]),
-    gender: typeof gender === "string" ? [gender] : (gender as string[]),
-    tag: typeof tag === "string" ? [tag] : (tag as string[]),
-    bots: typeof bots === "string" ? [bots] : (bots as string[]),
-    startDate:
-      typeof startDate === "string"
-        ? new Date(parseInt(startDate as string))
-        : null,
-    endDate:
-      typeof endDate === "string"
-        ? new Date(parseInt(endDate as string))
-        : null,
-  };
+router.get(
+  "/",
+  paginate.middleware(30, 100),
+  async (req: Request, res: Response) => {
+    let {
+      offset,
+      limit,
+      political,
+      gender,
+      tag,
+      bots,
+      startDate,
+      endDate,
+    } = req.query;
+    /**
+     * Input validation
+     *
+     * TODO: Testing needed to confirm different combinations of query params work
+     * TODO: possible refactoring using express-validator?
+     */
+    const queryParams = {
+      offset: offset ? parseInt(offset as string) : 0, // page offset
+      limit: limit ? parseInt(limit as string) : 30, // number of items in response
+      political:
+        typeof political === "string" ? [political] : (political as string[]),
+      gender: typeof gender === "string" ? [gender] : (gender as string[]),
+      tag: typeof tag === "string" ? [tag] : (tag as string[]),
+      bots: typeof bots === "string" ? [bots] : (bots as string[]),
+      startDate:
+        typeof startDate === "string"
+          ? new Date(parseInt(startDate as string))
+          : null,
+      endDate:
+        typeof endDate === "string"
+          ? new Date(parseInt(endDate as string))
+          : null,
+    };
 
-  // Invalid negative offset and limit, return a blank array
-  if (queryParams.offset < 0 || queryParams.limit < 0) {
-    res.send([]);
+    // Invalid negative offset and limit, return a blank array
+    if (queryParams.offset < 0 || queryParams.limit < 0) {
+      res.send([]);
+      return;
+    }
+
+    // Update the response with the Links data
+    const { records, totalCount, recordCount } = await controller.getAll(
+      queryParams
+    );
+
+    const metadata = paginate.getMetadata(
+      req,
+      queryParams.offset,
+      queryParams.limit,
+      totalCount,
+      recordCount
+    );
+
+    // Return response
+    res.send({
+      metadata,
+      records,
+    });
     return;
   }
-  console.log(queryParams);
-
-  // Update the response with the Links data
-  const response = await controller.getAll(queryParams);
-  const metadata = response.metadata;
-  const links = metadata.links;
-
-  let originalURL = req.originalUrl;
-
-  // check if the input includes offset and limit
-  if (!originalURL.includes("offset=")) {
-    if (originalURL[originalURL.indexOf("/ads") + 4] !== "?") {
-      originalURL = originalURL + "?offset=0";
-    } else {
-      originalURL = originalURL + "&offset=0";
-    }
-  }
-  if (!originalURL.includes("limit=")) {
-    originalURL = originalURL + "&limit=30";
-  }
-
-  // for self link
-  links.self = originalURL;
-  // for first link
-  links.first = originalURL.replace(
-    `offset=${String(queryParams.offset)}`,
-    "offset=0"
-  );
-  // for last link
-  links.last = originalURL.replace(
-    `offset=${String(queryParams.offset)}`,
-    `offset=${String(
-      Math.floor(metadata.total_count / metadata.per_page) * metadata.per_page
-    )}`
-  );
-  // for next link
-  const nextOffset = queryParams.offset + metadata.per_page;
-  if (nextOffset < metadata.total_count) {
-    links.next = originalURL.replace(
-      `offset=${String(queryParams.offset)}`,
-      `offset=${String(queryParams.offset + metadata.per_page)}`
-    );
-  } else {
-    links.next = originalURL;
-  }
-  // for previous link
-  const previousOffset = queryParams.offset - metadata.per_page;
-  if (previousOffset >= 0) {
-    links.previous = originalURL.replace(
-      `offset=${String(queryParams.offset)}`,
-      `offset=${String(previousOffset)}`
-    );
-  } else {
-    links.previous = originalURL;
-  }
-  console.log(response);
-  // Return response
-  res.send(response);
-  return;
-});
+);
 
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;

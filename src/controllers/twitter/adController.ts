@@ -6,26 +6,10 @@ import {
 } from "~/helpers/types";
 import { TwitterAd, TwitterAdSeenByBot, TwitterAdTag } from "~/models";
 
-interface Metadata {
-  page: number;
-  per_page: number;
-  page_count: number;
-  total_count: number;
-  links: Links;
-}
-
-interface Links {
-  self: string;
-  first: string;
-  previous: string;
-  next: string;
-  last: string;
-}
-
 export class TwitterAdController {
   async getAdInstances(
     queryParams: PaginationParams & TwitterAdFilterParams
-  ): Promise<{ metadata: Metadata; records: any[] }> {
+  ): Promise<{ totalCount: number; recordCount: number; records: any[] }> {
     const {
       limit,
       offset,
@@ -120,51 +104,22 @@ export class TwitterAdController {
       },
     });
 
-    let currentOffset = 0;
-    let currentLimit = 30;
-
-    if (offset !== undefined) {
-      currentOffset = offset;
-    }
-
-    if (limit !== undefined) {
-      currentLimit = limit;
-    }
-
-    const currentPage = currentOffset / currentLimit;
-
     delete findOptions.take;
     delete findOptions.skip;
 
     const totalAdNumber = await TwitterAdSeenByBot.count(findOptions);
 
-    let currentLink: Links = {
-      self: "",
-      first: "",
-      previous: "",
-      next: "",
-      last: "",
-    };
-
-    // get meta data
-    const metadataForAd: Metadata = {
-      page: currentPage,
-      per_page: currentLimit,
-      page_count: filteredAdNumber,
-      total_count: totalAdNumber,
-      links: currentLink,
-    };
-
     // get ads with the required relations and data
     return {
-      metadata: metadataForAd,
+      totalCount: totalAdNumber,
+      recordCount: filteredAdNumber,
       records: ads,
     };
   }
 
   async getAdUniques(
     queryParams: PaginationParams & TwitterAdFilterParams
-  ): Promise<{ metadata: Metadata; records: any[] }> {
+  ): Promise<{ totalCount: number; recordCount: number; records: any[] }> {
     const {
       limit,
       offset,
@@ -264,44 +219,15 @@ export class TwitterAdController {
       delete e.adBot;
     });
 
-    let currentOffset = 0;
-    let currentLimit = 30;
-
-    if (offset !== undefined) {
-      currentOffset = offset;
-    }
-
-    if (limit !== undefined) {
-      currentLimit = limit;
-    }
-
-    const currentPage = currentOffset / currentLimit;
-
     delete findOptions.take;
     delete findOptions.skip;
 
     const totalAdNumber = await TwitterAd.count(findOptions);
 
-    let currentLink: Links = {
-      self: "",
-      first: "",
-      previous: "",
-      next: "",
-      last: "",
-    };
-
-    // get meta data
-    const metadataForAd: Metadata = {
-      page: currentPage,
-      per_page: currentLimit,
-      page_count: filteredAdNumber,
-      total_count: totalAdNumber,
-      links: currentLink,
-    };
-
     // get ads with the required relations and data
     return {
-      metadata: metadataForAd,
+      totalCount: totalAdNumber,
+      recordCount: filteredAdNumber,
       records: ads,
     };
   }
