@@ -4,6 +4,19 @@ import { TwitterAd, TwitterAdSeenByBot, TwitterAdTag } from "~/models";
 import { PaginationParams, TwitterAdFilterParams } from "~/typings/global";
 
 export class TwitterAdController {
+  /**
+   * Get many Twitter Ad instances based on queryParams. An instance is defined as when an ad was seen by a bot, regardless if that ad has been seen before.
+   *
+   * The filtering for TwitterAdFilterParams works as followed.
+   * Different parameters are joined together with OR's while values of the same parameters are joined by AND's.
+   * For example if the supplied parameters are:
+   * ```
+   * {bots:["bot1", "bot2"], startDate:"2020-11-09T23:50:56"}
+   * ```
+   * Then the filter logic will be `(bot="bot1" OR bot="bot2") AND startDate="2020-11-09T23:50:56"`
+   * @param queryParams
+   * @returns a collection of Twitter Ad instances, the total count (in the database) and the returned count
+   */
   async getAdInstances(
     queryParams: PaginationParams & TwitterAdFilterParams
   ): Promise<{ totalCount: number; recordCount: number; records: any[] }> {
@@ -113,6 +126,19 @@ export class TwitterAdController {
     };
   }
 
+  /**
+   * Get many unique Twitter Ads based on queryParams.
+   *
+   * The filtering for TwitterAdFilterParams works as followed.
+   * Different parameters are joined together with OR's while values of the same parameters are joined by AND's.
+   * For example if the supplied parameters are:
+   * ```
+   * {bots:["bot1", "bot2"], startDate:"2020-11-09T23:50:56"}
+   * ```
+   * Then the filter logic will be `(bot="bot1" OR bot="bot2") AND startDate="2020-11-09T23:50:56"`
+   * @param queryParams
+   * @returns a collection of unique Twitter Ads, the total count (in the database) and the returned count
+   */
   async getAdUniques(
     queryParams: PaginationParams & TwitterAdFilterParams
   ): Promise<{ totalCount: number; recordCount: number; records: any[] }> {
@@ -235,6 +261,14 @@ export class TwitterAdController {
     });
   }
 
+  /**
+   * Attach a Tag to an Ad
+   *
+   * This essentially creates a new TwitterAdTag that links the specified Tag and Ad together.
+   * @param adId
+   * @param tagId
+   * @returns
+   */
   async addTagToAd(adId: string, tagId: number): Promise<TwitterAdTag> {
     const newAdTag = TwitterAdTag.create({
       adId,
@@ -243,6 +277,14 @@ export class TwitterAdController {
     return await TwitterAdTag.save(newAdTag);
   }
 
+  /**
+   * Remove a Tag from an Ad.
+   *
+   * This essentially deletes a TwitterAdTag row and does not delete any Tag or Ad row.
+   * @param adId
+   * @param tagId
+   * @returns
+   */
   async deleteTagFromAd(adId: string, tagId: number): Promise<DeleteResult> {
     const adTagToDelete = TwitterAdTag.create({
       adId,

@@ -15,9 +15,13 @@ declare global {
 }
 
 export interface PaginationMetadata {
+  /** current page number */
   page: number;
+  /**max item count per page (i.e. offset) */
   per_page: number;
+  /** actual item count per page */
   page_count: number;
+  /** total item count that fits the search criteria */
   total_count: number;
   links: Links;
 }

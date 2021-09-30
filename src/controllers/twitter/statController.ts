@@ -46,13 +46,6 @@ export class TwitterStatController {
       .leftJoin("adTags.tag", "tag")
       .leftJoin("ad.adBot", "adBot")
       .leftJoin("adBot.bot", "bot")
-      // .select(
-      //   `SUM(CASE
-      //   WHEN bot.gender = 'Male' THEN 1
-      //   WHEN bot.gender = 'Female' THEN 0
-      //   ELSE 0.5 END)/COUNT(ad.id)`,
-      //   "avgGender"
-      // )
       .select("AVG(bot.politicalRanking)", "avgPolitical")
       .addSelect("tag.name", "label")
       .groupBy("tag.name")
