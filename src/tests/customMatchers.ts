@@ -21,7 +21,7 @@ expect.extend({
   },
 });
 
-export const botMatcherSchema = {
+export const googleBotMatcherSchema = {
   id: expect.any(String),
   username: expect.any(String),
   gender: expect.toBeOneOf(["male", "female"]),
@@ -35,9 +35,9 @@ export const botMatcherSchema = {
   politicalRanking: expect.toBeOneOf([0, 1, 2, 3, 4]),
 };
 
-export const adMatcherSchema = {
+export const googleAdMatcherSchema = {
   id: expect.any(String),
-  bot: expect.objectContaining(botMatcherSchema),
+  bot: expect.objectContaining(googleBotMatcherSchema),
   createdAt: expect.any(String),
   loggedIn: expect.toBeTypeOrNull(Boolean),
   headline: expect.toBeTypeOrNull(String),
