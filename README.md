@@ -66,8 +66,8 @@
 
 - Create a new TS model file in `/models`
 - Create a class that extends TypeORM BaseEntity and annotate the class and attributes as appropriate (see [TypeORM API](https://typeorm.io/#/))
-- Update the index.ts file for cleaner exporting and importing
-- For development, run yarn schema:sync to update the local database. If that doesn&#39;t work, run yarn schema:drop and then schema:sync
+- Update the `index.ts` file for cleaner exporting and importing
+- For development, run `yarn schema:sync` to update the local database. If that doesn't work, run `yarn schema:drop` and then `schema:sync`
 - For production, see [database migration](#_6sc9utugvi8g).
 
 ### Adding new route
@@ -79,7 +79,7 @@
 
 - These should be done after a change to the schema is made, is merged into the master branch and has been deployed
 - The migration scripts in package.json will use the `.dev.env` values so a workaround to update the production database is to put its credentials in `.dev.env`. REMEMBER to change it back to the dev credentials after you&#39;re done.
-- Run `yarn migration:generate \&lt;migration-name\&gt;` to generate migration code. Check in `/migrations` folder that a corresponding TS file is created and that its up() and down() methods are correct.
+- Run `yarn migration:generate <migration-name>` to generate migration code. Check in `/migrations` folder that a corresponding TS file is created and that its up() and down() methods are correct.
 - Run `yarn migration:run` to update the database
 - Run `yarn migration:revert` if you didn&#39;t intend to update the database
 - Migration of the database should be done manually to check if the logic generated is correct or else we risk dropping the data.
