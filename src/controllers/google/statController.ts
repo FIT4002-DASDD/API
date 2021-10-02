@@ -2,7 +2,18 @@ import { getConnection } from "typeorm";
 import { GoogleAd, GoogleAdTag, GoogleBot } from "~/models";
 
 export class GoogleStatController {
-  async getBotAlignmentStat() {
+  /**
+   * @returns ad statistics based on bot alignments (political ranking and gender)
+   */
+  async getBotAlignmentStat(): Promise<
+    Array<{
+      type: "political ranking" | "gender";
+      data: {
+        label: string;
+        count: string;
+      };
+    }>
+  > {
     let res: any = [];
     let rawRes = await GoogleBot.createQueryBuilder("bot")
       .select("COUNT(bot.id)", "count")
@@ -28,9 +39,19 @@ export class GoogleStatController {
     });
     return res;
   }
-  // .leftJoinAndSelect("adTags.tag", "tag")
 
-  async getCategoryStat() {
+  /**
+   * Ad statistics based on their categories/tags.
+   *
+   * The `label` is the name of a tag and the `count` is how many times that tag has been attached to the ads.
+   * @returns ad statistics based on their categories/tags
+   */
+  async getCategoryStat(): Promise<
+    Array<{
+      label: string;
+      count: string;
+    }>
+  > {
     let rawRes = await GoogleAd.createQueryBuilder("ad")
       .leftJoin("ad.adTags", "adTags")
       .leftJoin("adTags.tag", "tag")
@@ -46,7 +67,16 @@ export class GoogleStatController {
     return rawRes;
   }
 
-  async getCategoryBotStat() {
+  /**
+   * @returns Bot stats grouped by tags of ads that they have seen.
+   */
+  async getCategoryBotStat(): Promise<
+    Array<{
+      avgGender: number;
+      avgPolitical: number;
+      label: string;
+    }>
+  > {
     let rawRes = await GoogleAd.createQueryBuilder("ad")
       .leftJoin("ad.adTags", "adTags")
       .leftJoin("adTags.tag", "tag")
@@ -69,11 +99,20 @@ export class GoogleStatController {
       e.avgGender = parseFloat(e.avgGender);
       e.avgPolitical = parseFloat(e.avgPolitical);
     });
-    console.log(rawRes);
     return rawRes;
   }
 
-  async getAdCounts(startDate: Date) {
+  /**
+   * Get daily ad counts in a month from startDate
+   */
+  async getAdCounts(
+    startDate: Date
+  ): Promise<
+    Array<{
+      count: string;
+      date: string;
+    }>
+  > {
     var start = new Date(
       Date.UTC(startDate.getFullYear(), startDate.getMonth(), 1, 0, 0, 0)
     );
@@ -96,25 +135,27 @@ export class GoogleStatController {
     return rawRes;
   }
 
-  async getAdStats() {
+  async getAdStats(): Promise<{
+    adPerBot: string;
+    adTagged: string;
+    adTotal: string;
+  }> {
     const adTotal = (
       await GoogleAd.createQueryBuilder("ad")
         .select("COUNT(*)", "adCount")
         .getRawOne()
     ).adCount;
-
     const adTagged = (
       await GoogleAdTag.createQueryBuilder("adtag")
         .select("COUNT(DISTINCT adtag.adId)", "adTaggedCount")
         .getRawOne()
     ).adTaggedCount;
-
     const botCount = (await GoogleBot.findAndCount())[1];
 
     return {
       adTotal,
       adTagged,
-      adPerBot: adTotal / botCount,
+      adPerBot: String(adTotal / botCount),
     };
   }
 }

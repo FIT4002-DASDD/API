@@ -272,7 +272,7 @@ test("GET /google/stats/ad-stat - Get general ad stats for bots #API-25 ", async
   const { body } = res;
 
   const expected = {
-    adPerBot: 1.3333333333333333,
+    adPerBot: "1.3333333333333333",
     adTagged: "3",
     adTotal: "4",
   };
