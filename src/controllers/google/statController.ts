@@ -155,7 +155,7 @@ export class GoogleStatController {
     return {
       adTotal,
       adTagged,
-      adPerBot: String(adTotal / botCount),
+      adPerBot: String((adTotal / botCount).toFixed(2)),
     };
   }
 }

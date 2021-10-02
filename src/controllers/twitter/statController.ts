@@ -145,10 +145,10 @@ export class TwitterStatController {
 
     return {
       adUniqueCount, // Unique ad count (i.e. # of rows in TwitterAd)
-      adSeenCount, // All instances of ads seend (i.e. # of rows in TwitterAdSeenByBot)
+      adSeenCount, // All instances of ads seen (i.e. # of rows in TwitterAdSeenByBot)
       adTagged,
-      adUniquePerBot: String(adUniqueCount / botCount),
-      adSeenPerBot: String(adSeenCount / botCount),
+      adUniquePerBot: String((adUniqueCount / botCount).toFixed(2)),
+      adSeenPerBot: String((adSeenCount / botCount).toFixed(2)),
     };
   }
 }
