@@ -63,7 +63,6 @@ const connection = {
       const repository = connection.getRepository(entity.name);
       await repository.query(`TRUNCATE ${entity.tableName} CASCADE`);
     }
-    // TODO: drop all sequences
   },
 
   async createGoogleTestData() {

@@ -8,7 +8,18 @@ import {
 } from "~/models";
 
 export class TwitterStatController {
-  async getBotAlignmentStat() {
+  /**
+   * @returns ad statistics based on bot alignments (political ranking)
+   */
+  async getBotAlignmentStat(): Promise<
+    Array<{
+      type: "political ranking";
+      data: {
+        label: string;
+        count: string;
+      };
+    }>
+  > {
     let res: any = [];
     let rawRes = await TwitterBot.createQueryBuilder("bot")
       .select("COUNT(bot.id)", "count")
@@ -24,7 +35,18 @@ export class TwitterStatController {
     return res;
   }
 
-  async getCategoryStat() {
+  /**
+   * Ad statistics based on their categories/tags.
+   *
+   * The `label` is the name of a tag and the `count` is how many times that tag has been attached to the ads.
+   * @returns ad statistics based on their categories/tags
+   */
+  async getCategoryStat(): Promise<
+    Array<{
+      label: string;
+      count: string;
+    }>
+  > {
     let rawRes = await TwitterAd.createQueryBuilder("ad")
       .leftJoin("ad.adTags", "adTags")
       .leftJoin("adTags.tag", "tag")
@@ -40,19 +62,21 @@ export class TwitterStatController {
     return rawRes;
   }
 
-  async getCategoryBotStat() {
+  /**
+   * @returns Bot stats grouped by tags of ads that they have seen.
+   */
+  async getCategoryBotStat(): Promise<
+    Array<{
+      avgGender: number;
+      avgPolitical: number;
+      label: string;
+    }>
+  > {
     let rawRes = await TwitterAd.createQueryBuilder("ad")
       .leftJoin("ad.adTags", "adTags")
       .leftJoin("adTags.tag", "tag")
       .leftJoin("ad.adBot", "adBot")
       .leftJoin("adBot.bot", "bot")
-      // .select(
-      //   `SUM(CASE
-      //   WHEN bot.gender = 'Male' THEN 1
-      //   WHEN bot.gender = 'Female' THEN 0
-      //   ELSE 0.5 END)/COUNT(ad.id)`,
-      //   "avgGender"
-      // )
       .select("AVG(bot.politicalRanking)", "avgPolitical")
       .addSelect("tag.name", "label")
       .groupBy("tag.name")
@@ -67,6 +91,9 @@ export class TwitterStatController {
     return rawRes;
   }
 
+  /**
+   * Get daily ad counts in a month from startDate
+   */
   async getAdCounts(startDate: Date) {
     const start = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-01`;
     const endDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
@@ -89,7 +116,13 @@ export class TwitterStatController {
     return rawRes;
   }
 
-  async getAdStats() {
+  async getAdStats(): Promise<{
+    adUniqueCount: string;
+    adSeenCount: string;
+    adTagged: string;
+    adUniquePerBot: string;
+    adSeenPerBot: string;
+  }> {
     const adUniqueCount = (
       await TwitterAd.createQueryBuilder("ad")
         .select("COUNT(*)", "adCount")
@@ -111,11 +144,11 @@ export class TwitterStatController {
     const botCount = (await TwitterBot.findAndCount())[1];
 
     return {
-      adUniqueCount, // Unique ad count (i.e. # of entries in TwitterAd)
-      adSeenCount, // All instances of ads seend (i.e. # of entries in TwitterAdSeenByBot)
+      adUniqueCount, // Unique ad count (i.e. # of rows in TwitterAd)
+      adSeenCount, // All instances of ads seen (i.e. # of rows in TwitterAdSeenByBot)
       adTagged,
-      adUniquePerBot: adUniqueCount / botCount,
-      adSeenPerBot: adSeenCount / botCount,
+      adUniquePerBot: String((adUniqueCount / botCount).toFixed(2)),
+      adSeenPerBot: String((adSeenCount / botCount).toFixed(2)),
     };
   }
 }

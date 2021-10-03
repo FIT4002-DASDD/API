@@ -1,27 +1,24 @@
 import { DeleteResult, FindManyOptions, In } from "typeorm";
-import { GoogleAdFilterParams, PaginationParams } from "~/helpers/types";
 import { GoogleAd, GoogleAdTag } from "~/models";
-
-interface Metadata {
-  page: number;
-  per_page: number;
-  page_count: number;
-  total_count: number;
-  links: Links;
-}
-
-interface Links {
-  self: string;
-  first: string;
-  previous: string;
-  next: string;
-  last: string;
-}
+import { GoogleAdFilterParams, PaginationParams } from "~/typings/global";
 
 export class GoogleAdController {
+  /**
+   * Get many Google Ads based on queryParams.
+   *
+   * The filtering for GoogleAdFilterParams works as followed.
+   * Different parameters are joined together with OR's while values of the same parameters are joined by AND's.
+   * For example if the supplied parameters are:
+   * ```
+   * {bots:["bot1", "bot2"], gender:["female", "male"], startDate:"2020-11-09T23:50:56"}
+   * ```
+   * Then the filter logic will be `(bot="bot1" OR bot="bot2") AND (gender="female" OR gender="male") AND startDate="2020-11-09T23:50:56"`
+   * @param queryParams
+   * @returns a collection of Google Ads, the total count (in the database) and the returned count
+   */
   async getAll(
     queryParams: PaginationParams & GoogleAdFilterParams
-  ): Promise<{ metadata: Metadata; records: GoogleAd[] }> {
+  ): Promise<{ totalCount: number; recordCount: number; records: GoogleAd[] }> {
     const {
       limit,
       offset,
@@ -33,7 +30,6 @@ export class GoogleAdController {
       endDate,
     } = queryParams;
     const politicalInt = political?.map((e) => parseInt(e));
-    // TODO: Testing needed to confirm different combinations of query params work
     let findOptions: FindManyOptions = {
       take: limit ? limit : 30,
       skip: offset ? offset : 0,
@@ -113,37 +109,16 @@ export class GoogleAdController {
       },
     });
 
-    const currentOffset = offset ? offset : 0;
-    const currentLimit = limit ? limit : 30;
-
-    const currentPage = currentOffset / currentLimit;
-
     delete findOptions.take;
     delete findOptions.skip;
 
     const totalAdNumber = await GoogleAd.count(findOptions);
 
-    let currentLink: Links = {
-      self: "",
-      first: "",
-      previous: "",
-      next: "",
-      last: "",
-    };
-
-    // get meta data
-    const metadataForAd: Metadata = {
-      page: currentPage,
-      per_page: currentLimit,
-      page_count: filteredAdNumber,
-      total_count: totalAdNumber,
-      links: currentLink,
-    };
-
     // get ads with the required relations and data
     return {
-      metadata: metadataForAd,
       records: ads,
+      totalCount: totalAdNumber,
+      recordCount: filteredAdNumber,
     };
   }
 
@@ -154,6 +129,14 @@ export class GoogleAdController {
     });
   }
 
+  /**
+   * Attach a Tag to an Ad
+   *
+   * This essentially creates a new GoogleAdTag that links the specified Tag and Ad together.
+   * @param adId
+   * @param tagId
+   * @returns
+   */
   async addTagToAd(adId: string, tagId: number): Promise<GoogleAdTag> {
     const newAdTag = GoogleAdTag.create({
       adId,
@@ -162,6 +145,14 @@ export class GoogleAdController {
     return await GoogleAdTag.save(newAdTag);
   }
 
+  /**
+   * Remove a Tag from an Ad.
+   *
+   * This essentially deletes a GoogleAdTag row and does not delete any Tag or Ad row.
+   * @param adId
+   * @param tagId
+   * @returns
+   */
   async deleteTagFromAd(adId: string, tagId: number): Promise<DeleteResult> {
     const adTagToDelete = GoogleAdTag.create({
       adId,
