@@ -302,34 +302,31 @@ const connection = {
     const bot1 = TwitterBot.create({
       id: "bot1",
       username: "bot1",
-      type: TwitterBot.BOT_TYPE.AMERICA,
-      politicalRanking: TwitterBot.POLITICAL_RANKING.LEFT,
+      type: "AMERICA",
+      politicalRanking: "LEFT",
       followedAccounts: ["@follow1", "@follow2"],
       relevantTags: ["#tag1", "#tag2"],
       dob: new Date("1980-10-29"),
-      adBot: [],
     });
 
     const bot2 = TwitterBot.create({
       id: "bot2",
       username: "bot2",
-      type: TwitterBotType.AMERICA,
-      politicalRanking: TwitterPoliticalRanking.RIGHT,
+      type: "AMERICA",
+      politicalRanking: "RIGHT",
       followedAccounts: ["@follow1", "@follow2"],
       relevantTags: ["#tag1", "#tag2"],
       dob: new Date("1980-10-29"),
-      adBot: [],
     });
 
     const bot3 = TwitterBot.create({
       id: "bot3",
       username: "bot3",
-      type: TwitterBotType.AMERICA,
-      politicalRanking: TwitterPoliticalRanking.RIGHT,
+      type: "AMERICA",
+      politicalRanking: "RIGHT",
       followedAccounts: ["@follow1", "@follow2"],
       relevantTags: ["#tag1", "#tag2"],
       dob: new Date("1980-10-29"),
-      adBot: [],
     });
 
     await TwitterBot.save([bot1, bot2, bot3]);
@@ -341,46 +338,68 @@ const connection = {
     await TwitterTag.save([tag1, tag2, tag3]);
 
     const ad1 = TwitterAd.create({
-      bot: bot1,
-      createdAt: new Date("2020-11-01T23:52:56.000Z"),
-      loggedIn: true,
-      seenOn: "https://www.theatlantic.com/",
-      image: "https://project.s3.region.amazonaws.com/image_1.png",
-      headline: "Headline 1",
-      html: "innerHTML",
-      adLink: "www.cars.com/",
+      tags: [],
+      image: "http://placekitten.com/200/300",
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twitter.com",
+      tweetLink: "https://twitter.com",
     });
 
     const ad2 = TwitterAd.create({
-      bot: bot1,
-      createdAt: new Date("2020-11-10T23:52:56.000Z"),
-      loggedIn: false,
-      seenOn: "https://www.youtube.com/",
-      image: "https://project.s3.region.amazonaws.com/image_2.png",
-      headline: "Headline 2",
-      adLink: "www.donuts.com/",
+      tags: [],
+      image: "http://placekitten.com/200/300",
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twitter.com",
+      tweetLink: "https://twitter.com",
     });
 
     const ad3 = TwitterAd.create({
-      bot: bot2,
-      createdAt: new Date("2020-11-05T23:52:56.000Z"),
-      loggedIn: true,
-      seenOn: "https://www.bbc.com/news/science-environment-54395534",
-      image: "https://project.s3.region.amazonaws.com/image_3.png",
-      headline: "Headline 1",
-      html: "innerHTML",
+      tags: [],
+      image: "http://placekitten.com/200/300",
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twitter.com",
+      tweetLink: "https://twitter.com",
     });
 
     const ad4 = TwitterAd.create({
-      bot: bot3,
-      createdAt: new Date("2020-11-20T23:52:56.000Z"),
-      loggedIn: false,
-      headline: "Headline 2",
-      html: "innerHTML",
-      adLink: "www.donuts.com/",
+      tags: [],
+      image: "http://placekitten.com/200/300",
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twitter.com",
+      tweetLink: "https://twitter.com",
     });
 
     await TwitterAd.save([ad1, ad2, ad3, ad4]);
+
+    const adBotData: DeepPartial<TwitterAdSeenByBot>[] = [
+      {
+        ad: ad1,
+        bot: bot1,
+        createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      },
+      {
+        ad: ad1,
+        bot: bot2,
+        createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      },
+      {
+        ad: ad2,
+        bot: bot2,
+        createdAt: new Date("2020-11-05T23:52:56.000Z"),
+      },
+      {
+        ad: ad3,
+        bot: bot3,
+        createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      },
+    ];
+
+    const adBots = adBotData.map((a) => TwitterAdSeenByBot.create(a));
+    await TwitterAdSeenByBot.save(adBots);
 
     const adTagsData: DeepPartial<TwitterAdTag>[] = [
       {
