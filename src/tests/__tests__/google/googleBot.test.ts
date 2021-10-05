@@ -13,7 +13,7 @@ afterAll(async (done) => {
 });
 
 beforeEach(async (done) => {
-  await connection.createTestData();
+  await connection.createGoogleTestData();
   done();
 });
 

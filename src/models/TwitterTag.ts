@@ -12,13 +12,15 @@ import {
 import { TwitterAdTag } from ".";
 import { TwitterAd } from "./TwitterAd";
 
+/**
+ * Class to represent a Tag
+ */
 @Entity()
 @Unique("twitter_tag_name_constraint", ["name"])
 export class TwitterTag extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
 
-  // If tag is not user-generated but is predefined, should use enum instead
   @Column()
   name!: string;
 

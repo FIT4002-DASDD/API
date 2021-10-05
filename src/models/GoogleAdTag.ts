@@ -7,8 +7,10 @@ import {
 } from "typeorm";
 import { GoogleAd, GoogleTag } from ".";
 
+/**
+ * Class/join table to represent GoogleAd and GoogleTag many-to-many relationship
+ */
 @Entity()
-// TODO: cascade?
 export class GoogleAdTag extends BaseEntity {
   @PrimaryColumn()
   adId!: string;

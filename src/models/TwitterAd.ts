@@ -9,24 +9,20 @@ import {
 } from "typeorm";
 import { TwitterAdSeenByBot, TwitterAdTag, TwitterTag } from ".";
 
-interface ITwitterAd {
-  adId?: string;
-  promoterHandle?: string;
-  content?: string;
-  officialLink?: string;
-  tweetLink?: string;
-  tags?: TwitterTag[];
-}
-
 export enum TwitterAdType {
   UNSPECIFIED = "AD_TYPE_UNSPECIFIED",
   TWEET = "AD_TYPE_TWEET",
   FOLLOW = "AD_TYPE_FOLLOW",
 }
 
+/**
+ * Class to represent a **unique** Twitter Ad (based on their tweet links).
+ *
+ * For all instances of ad seen, see {@link TwitterAdSeenByBot TwitterAdSeenByBot}
+ */
 @Entity()
 @Unique("unique_tweet_link", ["tweetLink"])
-export class TwitterAd extends BaseEntity implements ITwitterAd {
+export class TwitterAd extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

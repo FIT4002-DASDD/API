@@ -44,3 +44,27 @@ export const googleAdMatcherSchema = {
   html: expect.toBeTypeOrNull(String),
   adLink: expect.toBeTypeOrNull(String),
 };
+
+export const twitterBotMatcherSchema = {
+  id: expect.any(String),
+  username: expect.any(String),
+  type: expect.any(String),
+  politicalRanking: expect.toBeOneOf([0, 1, 2, 3, 4]),
+  followedAccounts: expect.any([]),
+  relevantTags: expect.any([]),
+  dob: expect.any(Date)
+};
+
+export const twitterAdMatcherSchema = {
+  adSeenId: expect.any(Number),
+  adId: expect.any(String),
+  createdAt: expect.any(String),
+  bot: expect.objectContaining(googleBotMatcherSchema),
+  promoterHandle: expect.any(String),
+  content: expect.any(String),
+  officialLink: expect.any(String),
+  tweetLink: expect.any(String),
+  image: expect.any(String),
+  adType: expect.any(String),
+  tags: expect.any([]),
+};

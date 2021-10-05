@@ -23,6 +23,9 @@ enum TwitterPoliticalRanking {
   UNSPECIFIED = 5,
 }
 
+/**
+ * Class to represent Twitter Bot
+ */
 @Entity()
 export class TwitterBot extends BaseEntity {
   public static BOT_TYPE = TwitterBotType;
