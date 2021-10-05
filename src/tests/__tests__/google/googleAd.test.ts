@@ -2,14 +2,10 @@ import supertest from "supertest";
 import { DeepPartial } from "typeorm";
 import { app, server } from "~/app";
 import { GoogleBot, GoogleTag, GoogleAd, GoogleAdTag } from "~/models";
-<<<<<<< HEAD:src/tests/__tests__/google/googleAd.test.ts
 import {
   googleAdMatcherSchema,
   googleBotMatcherSchema,
 } from "~/tests/customMatchers";
-=======
-import { googleAdMatcherSchema, googleBotMatcherSchema } from "~/tests/customMatchers";
->>>>>>> master:src/tests/__tests__/routes/googleAd.test.ts
 import { connection } from "../../testConnection";
 
 beforeAll(async (done) => {

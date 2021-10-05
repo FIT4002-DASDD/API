@@ -48,14 +48,14 @@ export class TwitterBot extends BaseEntity {
     enum: TwitterBot.BOT_TYPE,
     default: TwitterBot.BOT_TYPE.UNSPECIFIED,
   })
-  type!: keyof typeof TwitterBot.BOT_TYPE;
+  type!: TwitterBotType;
 
   @Column({
     type: "enum",
     enum: TwitterBot.POLITICAL_RANKING,
     default: TwitterBot.POLITICAL_RANKING.UNSPECIFIED,
   })
-  politicalRanking!: keyof typeof TwitterBot.POLITICAL_RANKING;
+  politicalRanking!: TwitterPoliticalRanking;
 
   @Column("text", { array: true, default: [] })
   followedAccounts!: string[];
