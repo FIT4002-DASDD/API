@@ -397,7 +397,7 @@ describe("GET /google/ads", () => {
     done();
   });
 
-  test("Get many ads with parameters (multiple tags) #API-30", async (done) => {
+  test("Get many ads with parameters (multiple tags) #API-31", async (done) => {
     const res = await supertest(app)
       .get("/twitter/ads?groupUnique=true")
       .query({
