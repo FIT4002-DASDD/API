@@ -9,6 +9,7 @@ beforeAll(async (done) => {
 });
 afterAll(async (done) => {
   await connection.close();
+  server.close();
   done();
 });
 
@@ -19,7 +20,6 @@ beforeEach(async (done) => {
 
 afterEach(async (done) => {
   await connection.clear();
-  server.close();
   done();
 });
 
