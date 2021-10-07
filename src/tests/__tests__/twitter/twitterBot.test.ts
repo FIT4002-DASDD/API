@@ -1,5 +1,3 @@
-import supertest from "supertest";
-import { app, server } from "~/app";
 import { connection } from "../../testConnection";
 
 beforeAll(async (done) => {
@@ -13,5 +11,5 @@ afterAll(async (done) => {
 });
 
 test("template", async (done) => {
-    done();
+  done();
 });

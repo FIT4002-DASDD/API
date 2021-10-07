@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { DeepPartial } from "typeorm";
 import { app, server } from "~/app";
-import { GoogleBot, GoogleTag, GoogleAd, GoogleAdTag } from "~/models";
+import { GoogleAd, GoogleAdTag, GoogleBot, GoogleTag } from "~/models";
 import { connection } from "../../testConnection";
 
 beforeAll(async (done) => {

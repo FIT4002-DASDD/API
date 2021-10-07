@@ -1,5 +1,4 @@
 import path, { join } from "path";
-import { ConnectionOptions } from "typeorm";
 import { config } from "./config";
 // const result = dotenv.config();
 

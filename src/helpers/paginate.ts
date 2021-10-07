@@ -1,5 +1,5 @@
+import { NextFunction, Request, Response } from "express";
 import { PaginationMetadata } from "~/typings/global";
-import { NextFunction, Response, Request } from "express";
 
 /**
  * Helper class for pagination
