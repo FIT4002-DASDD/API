@@ -1,6 +1,4 @@
-import { googleAdDef } from "../definitions/adDef.swagger";
 import { googleBotDef } from "../definitions/botDef.swagger";
-import { googleTagDef } from "../definitions/tagDef.swagger";
 
 export const bot = {
   "/google/bots": {

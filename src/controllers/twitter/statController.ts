@@ -1,5 +1,4 @@
-import e from "cors";
-import { createQueryBuilder, getConnection } from "typeorm";
+import { getConnection } from "typeorm";
 import {
   TwitterAd,
   TwitterAdSeenByBot,

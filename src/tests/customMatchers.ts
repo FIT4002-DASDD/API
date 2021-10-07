@@ -50,16 +50,16 @@ export const twitterBotMatcherSchema = {
   username: expect.any(String),
   type: expect.any(String),
   politicalRanking: expect.toBeOneOf([0, 1, 2, 3, 4]),
-  followedAccounts: expect.any([]),
-  relevantTags: expect.any([]),
-  dob: expect.any(Date)
+  followedAccounts: expect.toBeArray(),
+  relevantTags: expect.toBeArray(),
+  dob: expect.any(String),
 };
 
 export const twitterAdMatcherSchema = {
   adSeenId: expect.any(Number),
   adId: expect.any(String),
   createdAt: expect.any(String),
-  bot: expect.objectContaining(googleBotMatcherSchema),
+  // bot: expect.objectContaining(twitterBotMatcherSchema),
   promoterHandle: expect.any(String),
   content: expect.any(String),
   officialLink: expect.any(String),

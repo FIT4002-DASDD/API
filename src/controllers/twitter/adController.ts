@@ -1,5 +1,4 @@
 import { DeleteResult, FindManyOptions, In } from "typeorm";
-
 import { TwitterAd, TwitterAdSeenByBot, TwitterAdTag } from "~/models";
 import { PaginationParams, TwitterAdFilterParams } from "~/typings/global";
 

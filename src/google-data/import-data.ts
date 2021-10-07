@@ -1,5 +1,5 @@
-import { DBConnect } from "~/helpers/dbConnection";
 import path from "path";
+import { DBConnect } from "~/helpers/dbConnection";
 
 const main = async () => {
   const connection = await DBConnect();
