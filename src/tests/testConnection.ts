@@ -7,7 +7,13 @@ import {
 } from "typeorm";
 import ORMConfig from "~/configs/ormconfig";
 import { GoogleAd, GoogleAdTag, GoogleBot, GoogleTag } from "~/models";
-
+import {
+  TwitterAd,
+  TwitterAdTag,
+  TwitterBot,
+  TwitterTag,
+  TwitterAdSeenByBot,
+} from "~/models";
 const env = process.env;
 if (env.NODE_ENV !== "test") {
   console.error("Test utilities only available in testing mode");
