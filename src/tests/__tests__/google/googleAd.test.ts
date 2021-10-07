@@ -2,9 +2,11 @@ import supertest from "supertest";
 import { DeepPartial } from "typeorm";
 import { app, server } from "~/app";
 import { GoogleBot, GoogleTag, GoogleAd, GoogleAdTag } from "~/models";
-import { googleAdMatcherSchema, googleBotMatcherSchema } from "~/tests/customMatchers";
+import {
+  googleAdMatcherSchema,
+  googleBotMatcherSchema,
+} from "~/tests/customMatchers";
 import { connection } from "../../testConnection";
-
 
 beforeAll(async (done) => {
   await connection.create();
@@ -16,9 +18,7 @@ afterAll(async (done) => {
   done();
 });
 
-
 describe("GET /google/ads", () => {
-
   beforeEach(async (done) => {
     await connection.createGoogleTestData();
     done();
@@ -396,11 +396,10 @@ describe("GET /google/ads/:id", () => {
   });
 
   test("Create new ad tag (valid case) #API-12", async (done) => {
-    const getTags = await supertest(app)
-      .get("/google/tags")
-    
-    const tag_id = String(getTags.body[0].id)
-    const tag_name = String(getTags.body[0].name)
+    const getTags = await supertest(app).get("/google/tags");
+
+    const tag_id = String(getTags.body[0].id);
+    const tag_name = String(getTags.body[0].name);
 
     const res = await supertest(app)
       .post("/google/ads/3883387e-8431-4cf6-ad87-6b274a882ff9/tags/" + tag_id)
@@ -464,11 +463,10 @@ describe("GET /google/ads/:id", () => {
   });
 
   test("Create new ad tag (invalid case) - duplicate ad id with tag id #API-13-3", async (done) => {
-    const getTags = await supertest(app)
-      .get("/google/tags")
-    
-    const tag_id = String(getTags.body[0].id)
-    const tag_name = String(getTags.body[0].name)
+    const getTags = await supertest(app).get("/google/tags");
+
+    const tag_id = String(getTags.body[0].id);
+    const tag_name = String(getTags.body[0].name);
 
     const res = await supertest(app)
       .post("/google/ads/3883387e-8431-4cf6-ad87-6b274a882ff1/tags/" + tag_id)
