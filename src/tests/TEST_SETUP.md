@@ -79,7 +79,6 @@ Also include the test case ID at the end of the test description for easy tracki
 
 ## Current limitations and concerns
 
-- **TODO**: Integrate with CI pipeline
 - Run tests on the built `js` files instead of `ts` files.
 - Tests are being run with `--runInBand` config. This disallows running tests in parallel and is to prevent race conditions when reading and writing to the database. The disadvantage is that performance is greatly reduced and may be a problem when we have a large number of tests.
   - An alternative is to have each test case create and use an in-memory database. The problem is that I think only SQLite is available as in-memory.

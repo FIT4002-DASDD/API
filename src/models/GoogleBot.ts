@@ -4,10 +4,12 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
 } from "typeorm";
 import { GoogleAd } from ".";
 
+/**
+ * Class to represent a Google Bot
+ */
 @Entity()
 export class GoogleBot extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
@@ -28,21 +30,32 @@ export class GoogleBot extends BaseEntity {
   @Column("varchar")
   lName!: string;
 
+  /** Other search terms category. See Google bots info spreadsheet */
   @Column("int")
   otherTermsCategory!: number;
 
   @Column("varchar")
   password!: string;
 
+  /** bot location latitude */
   @Column("float")
   locLat!: number;
 
+  /** bot location longitude */
   @Column("float")
   locLong!: number;
 
   @Column("varchar")
   type!: string;
 
+  /**
+   * politicalRanking is an integer within the range [0, 4]
+   * - 0: Left
+   * - 1: Centre-Left
+   * - 2: Centre
+   * - 3: Centre-Right
+   * - 4: Right
+   */
   @Column("int")
   politicalRanking!: number;
 

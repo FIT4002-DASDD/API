@@ -12,13 +12,15 @@ import {
 import { GoogleAdTag } from ".";
 import { GoogleAd } from "./GoogleAd";
 
+/**
+ * Class to represent a Tag
+ */
 @Entity()
 @Unique("google_tag_name_constraint", ["name"])
 export class GoogleTag extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
 
-  // If tag is not user-generated but is predefined, should use enum instead
   @Column()
   name!: string;
 
