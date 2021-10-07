@@ -136,16 +136,16 @@ export class GoogleStatController {
   }
 
   async getAdStats(): Promise<{
-    adPerBot: string;
-    adTagged: string;
-    adTotal: string;
+    adPerBot: number;
+    adTagged: number;
+    adTotal: number;
   }> {
-    const adTotal = (
+    const adTotal: string = (
       await GoogleAd.createQueryBuilder("ad")
         .select("COUNT(*)", "adCount")
         .getRawOne()
     ).adCount;
-    const adTagged = (
+    const adTagged: string = (
       await GoogleAdTag.createQueryBuilder("adtag")
         .select("COUNT(DISTINCT adtag.adId)", "adTaggedCount")
         .getRawOne()
@@ -153,9 +153,9 @@ export class GoogleStatController {
     const botCount = (await GoogleBot.findAndCount())[1];
 
     return {
-      adTotal,
-      adTagged,
-      adPerBot: String((adTotal / botCount).toFixed(2)),
+      adTotal: parseFloat(adTotal),
+      adTagged: parseFloat(adTagged),
+      adPerBot: parseFloat(adTotal) / botCount,
     };
   }
 }

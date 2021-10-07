@@ -4,7 +4,7 @@ import path from "path";
 const main = async () => {
   const connection = await DBConnect();
   // Import bots_postgres.csv
-  const botFilePath = path.resolve("src/google-data/bots_postgres.csv");
+  const botFilePath = path.resolve("C:/Users/public/bots_postgres.csv");
   /**
    * https://stackoverflow.com/questions/13947327/to-ignore-duplicate-keys-during-copy-from-in-postgresql
    *
@@ -36,7 +36,7 @@ const main = async () => {
 		`
   );
 
-  const adFilePath = path.resolve("src/google-data/ads_postgres.csv");
+  const adFilePath = path.resolve("C:/Users/public/ads_postgres.csv");
 
   await connection?.manager.query(
     `
@@ -59,7 +59,7 @@ const main = async () => {
 		`
   );
 
-  const tagFilePath = path.resolve("src/google-data/tag_postgres.csv");
+  const tagFilePath = path.resolve("C:/Users/public/tag_postgres.csv");
 
   await connection?.manager.query(
     `
@@ -81,7 +81,7 @@ const main = async () => {
 		`
   );
 
-  const adTagFilePath = path.resolve("src/google-data/ad_tag_postgres.csv");
+  const adTagFilePath = path.resolve("C:/Users/public/ad_tag_postgres.csv");
 
   await connection?.manager.query(
     `
