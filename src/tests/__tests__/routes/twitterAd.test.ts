@@ -9,10 +9,7 @@ import {
   TwitterBot,
   TwitterTag,
 } from "~/models";
-import {
-  twitterAdMatcherSchema,
-  twitterBotMatcherSchema,
-} from "~/tests/customMatchers";
+import { twitterBotMatcherSchema } from "~/tests/customMatchers";
 import { connection } from "../../testConnection";
 
 beforeAll(async (done) => {
@@ -43,8 +40,8 @@ describe("GET /google/ads", () => {
       username: "bot2",
       type: TwitterBot.BOT_TYPE.AMERICA,
       politicalRanking: TwitterBot.POLITICAL_RANKING.RIGHT,
-      followedAccounts: ["@follow1", "@follow2"],
-      relevantTags: ["#tag1", "#tag2"],
+      followedAccounts: ["@follow3", "@follow4"],
+      relevantTags: ["#tag3", "#tag4"],
       dob: new Date("1980-10-29"),
     } as Object);
 
@@ -88,6 +85,7 @@ describe("GET /google/ads", () => {
       content: "Hi this is a cute kitten",
       officialLink: "https://twittertest3.com",
       tweetLink: "https://twittertest3.com",
+      adType: TwitterAdType.TWEET,
     });
 
     const ad4 = TwitterAd.create({
@@ -207,6 +205,240 @@ describe("GET /google/ads", () => {
       }
     }
 
+    done();
+  });
+  test("Check ads metadata pagination link #API-27", async (done) => {
+    const res = await supertest(app)
+      .get("/twitter/ads?groupUnique=true&limit=1")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const metadata = res.body.metadata;
+    expect(metadata).toMatchObject({
+      page: 0,
+      per_page: 1,
+      page_count: 1,
+      total_count: 4,
+      links: {
+        self: "/twitter/ads?groupUnique=true&limit=1&offset=0",
+        first: "/twitter/ads?groupUnique=true&limit=1&offset=0",
+        previous: "/twitter/ads?groupUnique=true&limit=1&offset=0",
+        next: "/twitter/ads?groupUnique=true&limit=1&offset=1",
+        last: "/twitter/ads?groupUnique=true&limit=1&offset=4",
+      },
+    });
+
+    const res2 = await supertest(app)
+      .get("/twitter/ads?groupUnique=true&limit=1&offset=1")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const metadata2 = res2.body.metadata;
+    expect(metadata2).toMatchObject({
+      page: 1,
+      per_page: 1,
+      page_count: 1,
+      total_count: 4,
+      links: {
+        self: "/twitter/ads?groupUnique=true&limit=1&offset=1",
+        first: "/twitter/ads?groupUnique=true&limit=1&offset=0",
+        previous: "/twitter/ads?groupUnique=true&limit=1&offset=0",
+        next: "/twitter/ads?groupUnique=true&limit=1&offset=2",
+        last: "/twitter/ads?groupUnique=true&limit=1&offset=4",
+      },
+    });
+    done();
+  });
+
+  test("Get many ads with parameters (bots and tag) #API-28", async (done) => {
+    const res = await supertest(app)
+      .get("/twitter/ads?groupUnique=true")
+      .query({
+        limit: 1,
+        bots: "bot1",
+        tag: ["Technology"],
+      })
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const { records } = res.body;
+
+    expect(records[0]).toMatchObject({
+      id: expect.any(String),
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twittertest1.com",
+      tweetLink: "https://twittertest1.com",
+      image: "http://placekitten.com/200/300",
+      adType: "AD_TYPE_UNSPECIFIED",
+      seenInstances: expect.arrayContaining([
+        expect.objectContaining({
+          adSeenId: expect.any(Number),
+          adId: expect.any(String),
+          botId: "bot1",
+          createdAt: "2020-11-01T23:52:56.000Z",
+          bot: {
+            id: "bot1",
+            username: "bot1",
+            type: "america",
+            politicalRanking: 0,
+            followedAccounts: ["@follow1", "@follow2"],
+            relevantTags: ["#tag1", "#tag2"],
+            dob: "1980-10-29",
+          },
+        }),
+      ]),
+      tags: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Technology",
+        }),
+        expect.objectContaining({
+          name: "Sports",
+        }),
+      ]),
+    });
+    done();
+  });
+
+  test("Get many ads with parameters (political ranking and bot type) #API-29", async (done) => {
+    const res = await supertest(app)
+      .get("/twitter/ads?groupUnique=true")
+      .query({
+        political: [4],
+        type: "america",
+      })
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const { records } = res.body;
+    expect(records).toBeArrayOfSize(3);
+    expect(records[0]).toMatchObject({
+      id: expect.any(String),
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twittertest1.com",
+      tweetLink: "https://twittertest1.com",
+      image: "http://placekitten.com/200/300",
+      adType: "AD_TYPE_UNSPECIFIED",
+      seenInstances: expect.arrayContaining([
+        expect.objectContaining({
+          adSeenId: expect.any(Number),
+          adId: expect.any(String),
+          botId: "bot2",
+          createdAt: "2020-11-01T23:52:56.000Z",
+          bot: {
+            id: "bot2",
+            username: "bot2",
+            type: "america",
+            politicalRanking: 4,
+            followedAccounts: ["@follow3", "@follow4"],
+            relevantTags: ["#tag3", "#tag4"],
+            dob: "1980-10-29",
+          },
+        }),
+      ]),
+      tags: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Technology",
+        }),
+        expect.objectContaining({
+          name: "Sports",
+        }),
+      ]),
+    });
+    done();
+  });
+
+  test("Get many ads with parameters (multiple tags) #API-30", async (done) => {
+    const res = await supertest(app)
+      .get("/twitter/ads?groupUnique=true")
+      .query({
+        tag: ["Technology", "Sports"],
+      })
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const { records } = res.body;
+    expect(records).toBeArrayOfSize(2);
+    expect(records[0]).toMatchObject({
+      id: expect.any(String),
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twittertest1.com",
+      tweetLink: "https://twittertest1.com",
+      image: "http://placekitten.com/200/300",
+      adType: "AD_TYPE_UNSPECIFIED",
+      seenInstances: expect.arrayContaining([
+        expect.objectContaining({
+          adSeenId: expect.any(Number),
+          adId: expect.any(String),
+          botId: "bot2",
+          createdAt: "2020-11-01T23:52:56.000Z",
+          bot: {
+            id: "bot2",
+            username: "bot2",
+            type: "america",
+            politicalRanking: 4,
+            followedAccounts: ["@follow3", "@follow4"],
+            relevantTags: ["#tag3", "#tag4"],
+            dob: "1980-10-29",
+          },
+        }),
+      ]),
+      tags: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Technology",
+        }),
+        expect.objectContaining({
+          name: "Sports",
+        }),
+      ]),
+    });
+    done();
+  });
+
+  test("Get many ads with parameters (multiple tags) #API-30", async (done) => {
+    const res = await supertest(app)
+      .get("/twitter/ads?groupUnique=true")
+      .query({
+        startDate: Date.parse("2020-11-09T23:50:56"),
+        endDate: Date.parse("2020-11-11T23:50:56"),
+      })
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const { records } = res.body;
+    expect(records).toBeArrayOfSize(1);
+    expect(records[0]).toMatchObject({
+      image: "http://placekitten.com/200/300",
+      promoterHandle: "@promoter",
+      content: "Hi this is a cute kitten",
+      officialLink: "https://twittertest3.com",
+      tweetLink: "https://twittertest3.com",
+      adType: TwitterAdType.TWEET,
+      seenInstances: expect.arrayContaining([
+        expect.objectContaining({
+          adSeenId: expect.any(Number),
+          adId: expect.any(String),
+          botId: "bot3",
+          createdAt: "2020-11-09T23:52:56.000Z",
+          bot: {
+            id: "bot3",
+            username: "bot3",
+            type: TwitterBot.BOT_TYPE.AMERICA,
+            politicalRanking: TwitterBot.POLITICAL_RANKING.RIGHT,
+            followedAccounts: ["@follow1", "@follow2"],
+            relevantTags: ["#tag1", "#tag2"],
+            dob: "1980-10-29",
+          },
+        }),
+      ]),
+      tags: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Politics",
+        }),
+      ]),
+    });
     done();
   });
 });
