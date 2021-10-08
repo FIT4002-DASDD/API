@@ -24,10 +24,10 @@ export const googleBotDef = {
       type: "string",
     },
     locLat: {
-      type: "float",
+      type: "number",
     },
     locLong: {
-      type: "float",
+      type: "number",
     },
     type: {
       type: "string",

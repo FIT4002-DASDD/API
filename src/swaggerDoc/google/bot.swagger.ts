@@ -1,11 +1,11 @@
-import { googleBotDef } from "../definitions/botDef.swagger";
+import { googleBotDef } from "../definitions/google/googleBotDef.swagger";
 
 export const bot = {
   "/google/bots": {
     get: {
       tags: ["/google"],
       summary: "Returns bots matching query",
-      operationId: "getBots",
+      operationId: "getGoogleBots",
       produces: ["application/json"],
       responses: {
         "200": {
@@ -23,7 +23,7 @@ export const bot = {
     get: {
       tags: ["/google"],
       summary: "Returns a bot",
-      operationId: "getBotByUsername",
+      operationId: "getGoogleBotByUsername",
       produces: ["application/json"],
       parameters: [
         {

@@ -1,4 +1,4 @@
-import { googleTagDef } from "../definitions/tagDef.swagger";
+import { googleTagDef } from "../definitions/google/googleTagDef.swagger";
 
 export const tag = {
   "/google/tags": {

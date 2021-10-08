@@ -1,11 +1,14 @@
-import { botAlignmentStatDef, dataDef } from "../definitions/statDef.swagger";
+import {
+  botAlignmentStatDef,
+  dataDef,
+} from "../definitions/google/googleStatDef.swagger";
 
 export const stat = {
   "/google/stats/bot-alignment": {
     get: {
       tags: ["/google"],
       summary: "Returns bot alignment stat",
-      operationId: "getBotAlignmentStat",
+      operationId: "getGoogleBotAlignmentStat",
       produces: ["application/json"],
       responses: {
         "200": {
@@ -23,7 +26,7 @@ export const stat = {
     get: {
       tags: ["/google"],
       summary: "Returns category stat",
-      operationId: "getCategoryStat",
+      operationId: "getGoogleCategoryStat",
       produces: ["application/json"],
       responses: {
         "200": {
@@ -38,7 +41,7 @@ export const stat = {
     get: {
       tags: ["/google"],
       summary: "Returns ad count stat",
-      operationId: "getAdCountStat",
+      operationId: "getGoogleAdCountStat",
       produces: ["application/json"],
       parameters: [
         {
@@ -75,7 +78,7 @@ export const stat = {
     get: {
       tags: ["/google"],
       summary: "Returns ad  stat",
-      operationId: "getAdStat",
+      operationId: "getGoogleAdStat",
       produces: ["application/json"],
       responses: {
         "200": {

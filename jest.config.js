@@ -27,6 +27,7 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   setupFilesAfterEnv: ["jest-extended"],
+  coverageDirectory: "<rootDir>/coverage",
   reporters: [
     "default",
     [
