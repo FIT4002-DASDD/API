@@ -287,42 +287,42 @@ export const ad = {
                 },
               },
             ],
-            examples: {
-              "application/json": {
-                id: "03984eea-65b0-4123-b0c0-bcc743095761",
-                botId: "f7bd2258-a38e-4388-b05e-27c6c89956f6",
-                createdAt: "2020-11-27T03:14:25.000Z",
-                image:
-                  "https://dasdd-core-stack-dasddadimages-qdzmhix51zg8.s3.amazonaws.com/1606446865145_ad.png",
-                headline:
-                  "ad.doubleclick.net/ddm/trackclk/N1142107.1434WASHINGTONPOSTDIGIT/B24115075.284807769",
-                html: "innerHTML",
-                adLink:
-                  "ad.doubleclick.net/ddm/trackclk/N1142107.1434WASHINGTONPOSTDIGIT/B24115075.284807769",
-                loggedIn: false,
-                seenOn:
-                  "https://www.washingtonpost.com/world/2020/09/21/trump-patriotic-education-china-orban/",
-                bot: {
-                  id: "f7bd2258-a38e-4388-b05e-27c6c89956f6",
-                  username: "damiandarsey",
-                  dob: "1985-04-20T04:00:00.000Z",
-                  gender: "Male",
-                  fName: "Damian",
-                  lName: "DArcey",
-                  otherTermsCategory: 5,
-                  password: "k3sDApFb6gKFsGK",
-                  locLat: 33.4484,
-                  locLong: -112.074,
-                  type: "google",
-                  politicalRanking: 4,
-                },
-                tags: [
-                  {
-                    id: 1,
-                    name: "Technology",
-                  },
-                ],
+          },
+          examples: {
+            "application/json": {
+              id: "03984eea-65b0-4123-b0c0-bcc743095761",
+              botId: "f7bd2258-a38e-4388-b05e-27c6c89956f6",
+              createdAt: "2020-11-27T03:14:25.000Z",
+              image:
+                "https://dasdd-core-stack-dasddadimages-qdzmhix51zg8.s3.amazonaws.com/1606446865145_ad.png",
+              headline:
+                "ad.doubleclick.net/ddm/trackclk/N1142107.1434WASHINGTONPOSTDIGIT/B24115075.284807769",
+              html: "innerHTML",
+              adLink:
+                "ad.doubleclick.net/ddm/trackclk/N1142107.1434WASHINGTONPOSTDIGIT/B24115075.284807769",
+              loggedIn: false,
+              seenOn:
+                "https://www.washingtonpost.com/world/2020/09/21/trump-patriotic-education-china-orban/",
+              bot: {
+                id: "f7bd2258-a38e-4388-b05e-27c6c89956f6",
+                username: "damiandarsey",
+                dob: "1985-04-20T04:00:00.000Z",
+                gender: "Male",
+                fName: "Damian",
+                lName: "DArcey",
+                otherTermsCategory: 5,
+                password: "k3sDApFb6gKFsGK",
+                locLat: 33.4484,
+                locLong: -112.074,
+                type: "google",
+                politicalRanking: 4,
               },
+              tags: [
+                {
+                  id: 1,
+                  name: "Technology",
+                },
+              ],
             },
           },
         },
