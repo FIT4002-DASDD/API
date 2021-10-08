@@ -33,7 +33,7 @@ module.exports = {
       "jest-html-reporters",
       {
         publicPath: "./coverage",
-        filename: "report.html",
+        filename: "index.html",
         expand: true,
         openReport: true,
       },
