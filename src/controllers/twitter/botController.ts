@@ -24,7 +24,19 @@ export class TwitterBotController {
       username,
     });
   }
-
+  /**
+  * Checking if bots are running (on AWS)
+  * 
+  * Return example: [
+      {
+          "instanceId": "i-03e28f160b2cf7515",
+          "state": {
+              "Code": 16,
+              "Name": "running"
+          }
+      }
+   * @returns ids and states of all bot instances 
+   */
   async getBotInstancesStatus() {
     try {
       const data = await ec2Client.send(
@@ -52,6 +64,39 @@ export class TwitterBotController {
     }
   }
 
+  /**
+   * Start or stop bot instances
+   *
+   * Return example: 
+   * ```{
+      "success": true,
+      "instanceStates": [
+          {
+              "CurrentState": {
+                  "Code": 80,
+                  "Name": "stopped"
+              },
+              "InstanceId": "i-03e28f160b2cf7515",
+              "PreviousState": {
+                  "Code": 80,
+                  "Name": "stopped"
+              }
+          }
+      ],
+      "errorMessage": "",
+      "errorCode": ""
+  }```
+
+  ```{
+      "success": false,
+      "instanceStates": [],
+      "errorCode": "IncorrectInstanceState",
+      "errorMessage": "The instance is not in a state from which it can be started. It could be in the process of stopping. Please try again later"
+  }```
+   * @param action "stop" | "start"
+   * @param ids  list of instance ids to apply the action to. If not specified, find all bot instances
+   * @returns
+   */
   async manageBotInstances(
     action: string,
     ids: string[] | null

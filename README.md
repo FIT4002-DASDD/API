@@ -23,6 +23,7 @@
   - Yarn
   - DataGrip (Optional)
 - Create a database in Postgres using PGAdmin. Put the credentials inside `.dev.env` following the structure of `.example.env`
+  - For the AWS credentials, it's recommended to create an IAM user with permissions to check the status, start and stop EC2 instances.
 - Run `yarn` in the project root to install the Node dependencies
 - Run `yarn schema:sync` to create tables in the database using the models defined in `src\models`.
 - You will need to run this **every time the models are changed** or you can set the `DB_SYNC=true` in the `.dev.env` for automatic synchronisation. This is only recommended for development, **not production**, as syncing may drop data.
