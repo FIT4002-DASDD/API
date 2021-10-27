@@ -42,5 +42,6 @@ export const config: Config = {
   CLIENT_ORIGIN: env.CLIENT_ORIGIN || "http://localhost:3000",
 };
 console.log(process.env.NODE_ENV);
-console.log(config);
-console.log("AFTER FIXED");
+if (process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "development") {
+  console.log(config);
+}
