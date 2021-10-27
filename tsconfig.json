@@ -2,7 +2,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
+    "target": "es2019",
     "module": "commonjs",
     "outDir": "./dist",
     "sourceMap": true,

@@ -3,7 +3,7 @@ import { config } from "./config";
 // const result = dotenv.config();
 
 const isCompiled = path.extname(__filename).includes("js");
-console.log([join(__dirname, "..", "migrations/**/*{.ts,.js}")]);
+// console.log([join(__dirname, "..", "migrations/**/*{.ts,.js}")]);
 export = {
   type: "postgres",
   host: config.DB_HOST || "localhost",
