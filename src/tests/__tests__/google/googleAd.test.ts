@@ -784,6 +784,12 @@ describe("DELETE /google/:id/", () => {
       .delete(`/google/ads/${validAd.id}/tags/${tagNotInAd}`)
       .expect("Content-Type", /json/)
       .expect(404);
+
+    const adAfterDelete = (await supertest(app).get("/google/ads")).body
+      .records[0];
+
+    // Check that ad remains the same
+    expect(adAfterDelete).toEqual(validAd);
     done();
   });
 });
