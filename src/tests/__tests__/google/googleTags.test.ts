@@ -16,6 +16,112 @@ afterAll(async (done) => {
   done();
 });
 
+describe("GET /google/tags", () => {
+  beforeEach(async (done) => {
+    // Create test data
+    const bot1 = GoogleBot.create({
+      id: "919222a3-c13e-4c8e-8f23-82fa872512cf",
+      username: "bot1",
+      dob: new Date("1999-07-14"),
+      gender: "male",
+      fName: "First",
+      lName: "Bot",
+      otherTermsCategory: 0,
+      password: "password123",
+      locLat: -23.139826,
+      locLong: 34.139062,
+      type: "google",
+      politicalRanking: 0,
+    });
+
+    await GoogleBot.save([bot1]);
+
+    const tag1 = GoogleTag.create({ name: "Tech" });
+    const tag2 = GoogleTag.create({ name: "Food" });
+    const tag3 = GoogleTag.create({ name: "Education" });
+
+    await GoogleTag.save([tag1, tag2, tag3]);
+
+    const ad1 = GoogleAd.create({
+      id: "3883387e-8431-4cf6-ad87-6b274a882ff9",
+      bot: bot1,
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      image: "https://project.s3.region.amazonaws.com/image_3.png",
+      seenOn: "https://www.bbc.com/news/science-environment-54395534",
+      loggedIn: false,
+      headline: "Headline 1",
+      html: "innerHTML",
+      adLink: "www.donuts.com/",
+    });
+
+    const ad2 = GoogleAd.create({
+      id: "3883387e-8431-4cf6-ad87-6b274a882ff1",
+      bot: bot1,
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      image: "https://project.s3.region.amazonaws.com/image_3.png",
+      seenOn: "https://www.bbc.com/news/science-environment-54395534",
+      loggedIn: false,
+      headline: "Headline 1",
+      html: "innerHTML",
+      adLink: "www.donuts.com/",
+    });
+
+    await GoogleAd.save([ad1, ad2]);
+
+    const adTagsData: DeepPartial<GoogleAdTag>[] = [
+      {
+        ad: ad2,
+        tag: tag1,
+      },
+      {
+        ad: ad2,
+        tag: tag2,
+      },
+    ];
+    const adTags = adTagsData.map((a) => GoogleAdTag.create(a));
+    await GoogleAdTag.save(adTags);
+
+    done();
+  });
+
+  afterEach(async (done) => {
+    await connection.clear();
+    done();
+  });
+  test("get all tags #API-16", async (done) => {
+    const allTags = (await supertest(app).get("/google/tags").expect(200)).body;
+    const newTag = { name: "Sports" };
+    const response = await supertest(app)
+      .post("/google/tags")
+      .send(newTag)
+      .expect(200);
+
+    for (const element of allTags) {
+      expect(element).toMatchObject({
+        id: expect.anything(),
+        name: expect.any(String),
+      });
+    }
+    done();
+  });
+
+  test("get a tag by id #API-17", async (done) => {
+    const aTag = (await supertest(app).get("/google/tags").expect(200)).body[0];
+    const aTag2 = (
+      await supertest(app).get(`/google/tags/${aTag.id}`).expect(200)
+    ).body;
+    expect(aTag).toEqual(aTag2);
+    done();
+  });
+
+  test("get a tag by invalid id #API-18", async (done) => {
+    const aTag2 = await supertest(app)
+      .get(`/google/tags/invalid-id`)
+      .expect(404);
+    done();
+  });
+});
+
 describe("POST /google/tags", () => {
   beforeEach(async (done) => {
     // Create test data
@@ -88,7 +194,7 @@ describe("POST /google/tags", () => {
     await connection.clear();
     done();
   });
-  test("Create new tags (valid) #API-16", async (done) => {
+  test("Create new tags (valid) #API-20", async (done) => {
     const allTagsBeforeCreation = (await supertest(app).get("/google/tags"))
       .body;
     const newTag = { name: "Sports" };
@@ -115,7 +221,7 @@ describe("POST /google/tags", () => {
     done();
   });
 
-  test("Create new tags (duplicate name) #API-16", async (done) => {
+  test("Create new tags (duplicate name) #API-21", async (done) => {
     const allTagsBeforeCreation = (await supertest(app).get("/google/tags"))
       .body;
     const existingTag = allTagsBeforeCreation[0];
