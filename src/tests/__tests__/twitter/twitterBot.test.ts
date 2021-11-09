@@ -154,7 +154,7 @@ afterEach(async (done) => {
   done();
 });
 
-test("GET twitter/bots - return multiple bots API-32", async (done) => {
+test("GET twitter/bots - return multiple bots #API-32", async (done) => {
   const res = (await supertest(app).get(`/twitter/bots`).expect(200)).body;
   for (const bot of res) {
     expect(bot).toMatchObject({
@@ -170,7 +170,7 @@ test("GET twitter/bots - return multiple bots API-32", async (done) => {
   done();
 });
 
-test("GET twitter/bots/:id - get bot by id (valid) API-33", async (done) => {
+test("GET twitter/bots/:id - get bot by id (valid) #API-33", async (done) => {
   const res = (await supertest(app).get(`/twitter/bots/bot1`).expect(200)).body;
   expect(res).toEqual({
     id: "bot1",
@@ -184,7 +184,7 @@ test("GET twitter/bots/:id - get bot by id (valid) API-33", async (done) => {
   done();
 });
 
-test("GET twitter/bots/:id - get bot by id (invalid) API-34", async (done) => {
+test("GET twitter/bots/:id - get bot by id (invalid) #API-34", async (done) => {
   await supertest(app).get(`/twitter/bots/asdwe`).expect(404);
   done();
 });
