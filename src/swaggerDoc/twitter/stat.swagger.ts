@@ -1,9 +1,9 @@
-import { botAlignmentStatDef, dataDef } from "../definitions/google/googleStatDef.swagger";
+import { botAlignmentStatDef, dataDef } from "../definitions/twitter/twitterStatDef.swagger";
 
 export const stat = {
-  "/google/stats/bot-alignment": {
+  "/twitter/stats/bot-alignment": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns bot alignment stat",
       operationId: "getBotAlignmentStat",
       produces: ["application/json"],
@@ -19,9 +19,9 @@ export const stat = {
     },
   },
 
-  "/google/stats/category": {
+  "/twitter/stats/category": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns category stat",
       operationId: "getCategoryStat",
       produces: ["application/json"],
@@ -34,9 +34,9 @@ export const stat = {
     },
   },
 
-  "/google/stats/ad-count": {
+  "/twitter/stats/ad-count": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns ad count stat",
       operationId: "getAdCountStat",
       produces: ["application/json"],
@@ -71,9 +71,9 @@ export const stat = {
     },
   },
 
-  "/google/stats/ad-stat": {
+  "/twitter/stats/ad-stat": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns ad  stat",
       operationId: "getAdStat",
       produces: ["application/json"],

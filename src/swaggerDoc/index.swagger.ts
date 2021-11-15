@@ -1,7 +1,12 @@
-import { googleAdDef } from "./definitions/adDef.swagger";
-import { googleBotDef } from "./definitions/botDef.swagger";
-import { googleTagDef } from "./definitions/tagDef.swagger";
+import { googleAdDef } from "./definitions/google/googleAdDef.swagger";
+import { googleBotDef } from "./definitions/google/googleBotDef.swagger";
+import { googleTagDef } from "./definitions/google/googleTagDef.swagger";
+import { twitterAdDef } from "./definitions/twitter/twitterAdDef.swagger";
+import { twitterBotDef } from "./definitions/twitter/twitterBotDef.swagger";
+import { twitterTagDef } from "./definitions/twitter/twitterTagDef.swagger";
+
 import { googleSwagger } from "./google";
+import { twitterSwagger } from "./twitter";
 const env = process.env;
 
 // googleSwagger.reduce((ac, cv)=> {return {...ac, ...cv}})
@@ -32,14 +37,21 @@ export const swaggerDocument = {
     {
       name: "/google",
     },
+    {
+      name: "/twitter",
+    }
   ],
   schemes: ["http"],
   paths: {
     ...googleSwagger,
+    ...twitterSwagger,
   },
   definitions: {
     GoogleAd: googleAdDef,
     GoogleBot: googleBotDef,
     GoogleTag: googleTagDef,
+    TwitterAd: twitterAdDef,
+    TwitterBot: twitterBotDef,
+    TwitterTag: twitterTagDef,
   },
 };

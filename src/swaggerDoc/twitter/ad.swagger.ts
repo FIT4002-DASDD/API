@@ -1,11 +1,11 @@
-import { googleAdDef } from "../definitions/google/googleAdDef.swagger";
-import { googleBotDef } from "../definitions/google/googleBotDef.swagger";
-import { googleTagDef } from "../definitions/google/googleTagDef.swagger";
+import { twitterAdDef } from "../definitions/twitter/twitterAdDef.swagger";
+import { twitterBotDef } from "../definitions/twitter/twitterBotDef.swagger";
+import { twitterTagDef } from "../definitions/twitter/twitterTagDef.swagger";
 
 export const ad = {
-  "/google/ads": {
+  "/twitter/ads": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns ads matching query",
       operationId: "getAds",
       produces: ["application/json"],
@@ -42,6 +42,17 @@ export const ad = {
         },
         {
           in: "query",
+          name: "adType",
+          description: "Filter ads with one or more of the given ad type",
+          required: false,
+          type: "array",
+          collectionFormat: "multi",
+          items: {
+            type: "string",
+          },
+        },
+        {
+          in: "query",
           name: "political",
           description:
             "Filter ads with one or more of the given bot political rankings",
@@ -50,17 +61,6 @@ export const ad = {
           collectionFormat: "multi",
           items: {
             type: "number",
-          },
-        },
-        {
-          in: "query",
-          name: "gender",
-          description: "Filter ads with one or more of the given bot genders",
-          required: false,
-          type: "array",
-          collectionFormat: "multi",
-          items: {
-            type: "string",
           },
         },
         {
@@ -85,6 +85,28 @@ export const ad = {
             type: "string",
           },
         },
+        {
+          in: "query",
+          name: "botType",
+          description: "Filter ads by bot type",
+          required: false,
+          type: "array",
+          collectionFormat: "multi",
+          items: {
+            type: "string",
+          },
+        },
+        {
+          in: "query",
+          name: "botType",
+          description: "Filter ads by bot type",
+          required: false,
+          type: "array",
+          collectionFormat: "multi",
+          items: {
+            type: "string",
+          },
+        },
       ],
       responses: {
         "200": {
@@ -93,14 +115,14 @@ export const ad = {
             type: "array",
             items: {
               allOf: [
-                googleAdDef,
+                twitterAdDef,
                 {
                   type: "object",
                   properties: {
-                    bot: googleBotDef,
+                    bot: twitterBotDef,
                     tags: {
                       type: "array",
-                      items: googleTagDef,
+                      items: twitterTagDef,
                     },
                   },
                 },
@@ -112,9 +134,9 @@ export const ad = {
     },
   },
 
-  "/google/ads/{id}": {
+  "/twitter/ads/{id}": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns an ad",
       operationId: "getAdById",
       produces: ["application/json"],
@@ -130,14 +152,14 @@ export const ad = {
       responses: {
         "200": {
           description: "successful operation",
-          schema: googleAdDef,
+          schema: twitterAdDef,
         },
       },
     },
   },
-  "/google/ads/:id/tags/:tagId": {
+  "/twitter/ads/:id/tags/:tagId": {
     post: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Attach a tag to an ad",
       operationId: "createAdTag",
       produces: ["application/json"],
@@ -162,14 +184,14 @@ export const ad = {
           description: "successful operation",
           schema: {
             allOf: [
-              googleAdDef,
+              twitterAdDef,
               {
                 type: "object",
                 properties: {
                   // bot: botDef,
                   tags: {
                     type: "array",
-                    items: googleTagDef,
+                    items: twitterTagDef,
                   },
                 },
               },
@@ -180,7 +202,7 @@ export const ad = {
     },
 
     delete: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Remove a tag from an ad",
       operationId: "removeAdTag",
       produces: ["application/json"],

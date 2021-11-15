@@ -1,9 +1,9 @@
-import { googleBotDef } from "../definitions/google/googleBotDef.swagger";
+import { twitterBotDef } from "../definitions/twitter/twitterBotDef.swagger";
 
 export const bot = {
-  "/google/bots": {
+  "/twitter/bots": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns bots matching query",
       operationId: "getBots",
       produces: ["application/json"],
@@ -12,16 +12,16 @@ export const bot = {
           description: "successful operation",
           schema: {
             type: "array",
-            items: googleBotDef,
+            items: twitterBotDef,
           },
         },
       },
     },
   },
 
-  "/google/bots/{username}": {
+  "/twitter/bots/{username}": {
     get: {
-      tags: ["/google"],
+      tags: ["/twitter"],
       summary: "Returns a bot",
       operationId: "getBotByUsername",
       produces: ["application/json"],
@@ -37,7 +37,7 @@ export const bot = {
       responses: {
         "200": {
           description: "successful operation",
-          schema: googleBotDef,
+          schema: twitterBotDef,
         },
       },
     },
