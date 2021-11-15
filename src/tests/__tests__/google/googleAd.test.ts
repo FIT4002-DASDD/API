@@ -148,6 +148,7 @@ describe("GET /google/ads", () => {
       next: expect.any(String),
       last: expect.any(String),
     });
+
     for (const element of body.records) {
       expect(element).toMatchObject(googleAdMatcherSchema);
     }
@@ -492,7 +493,76 @@ describe("GET /google/ads/:id", () => {
     expect(body).toMatchObject(expected);
     done();
   });
+});
 
+describe("POST google/ads/:id/tags/:tagId ", () => {
+  beforeEach(async (done) => {
+    // Create test data
+    const bot1 = GoogleBot.create({
+      id: "919222a3-c13e-4c8e-8f23-82fa872512cf",
+      username: "bot1",
+      dob: new Date("1999-07-14"),
+      gender: "male",
+      fName: "First",
+      lName: "Bot",
+      otherTermsCategory: 0,
+      password: "password123",
+      locLat: -23.139826,
+      locLong: 34.139062,
+      type: "google",
+      politicalRanking: 0,
+    });
+
+    await GoogleBot.save([bot1]);
+
+    const tag1 = GoogleTag.create({ name: "Tech" });
+    const tag2 = GoogleTag.create({ name: "Food" });
+    const tag3 = GoogleTag.create({ name: "Education" });
+
+    await GoogleTag.save([tag1, tag2, tag3]);
+
+    const ad1 = GoogleAd.create({
+      id: "3883387e-8431-4cf6-ad87-6b274a882ff9",
+      bot: bot1,
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      image: "https://project.s3.region.amazonaws.com/image_3.png",
+      seenOn: "https://www.bbc.com/news/science-environment-54395534",
+      loggedIn: false,
+      headline: "Headline 1",
+      html: "innerHTML",
+      adLink: "www.donuts.com/",
+    });
+
+    const ad2 = GoogleAd.create({
+      id: "3883387e-8431-4cf6-ad87-6b274a882ff1",
+      bot: bot1,
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      image: "https://project.s3.region.amazonaws.com/image_3.png",
+      seenOn: "https://www.bbc.com/news/science-environment-54395534",
+      loggedIn: false,
+      headline: "Headline 1",
+      html: "innerHTML",
+      adLink: "www.donuts.com/",
+    });
+
+    await GoogleAd.save([ad1, ad2]);
+
+    const adTagsData: DeepPartial<GoogleAdTag>[] = [
+      {
+        ad: ad2,
+        tag: tag1,
+      },
+    ];
+    const adTags = adTagsData.map((a) => GoogleAdTag.create(a));
+    await GoogleAdTag.save(adTags);
+
+    done();
+  });
+
+  afterEach(async (done) => {
+    await connection.clear();
+    done();
+  });
   test("Create new ad tag (valid case) #API-12", async (done) => {
     const getTags = await supertest(app).get("/google/tags");
 
@@ -591,6 +661,135 @@ describe("GET /google/ads/:id", () => {
 
     const { body } = res;
     expect(body).toMatchObject(expected);
+    done();
+  });
+});
+describe("DELETE /google/:id/", () => {
+  beforeEach(async (done) => {
+    // Create test data
+    const bot1 = GoogleBot.create({
+      id: "919222a3-c13e-4c8e-8f23-82fa872512cf",
+      username: "bot1",
+      dob: new Date("1999-07-14"),
+      gender: "male",
+      fName: "First",
+      lName: "Bot",
+      otherTermsCategory: 0,
+      password: "password123",
+      locLat: -23.139826,
+      locLong: 34.139062,
+      type: "google",
+      politicalRanking: 0,
+    });
+
+    await GoogleBot.save([bot1]);
+
+    const tag1 = GoogleTag.create({ name: "Tech" });
+    const tag2 = GoogleTag.create({ name: "Food" });
+    const tag3 = GoogleTag.create({ name: "Education" });
+
+    await GoogleTag.save([tag1, tag2, tag3]);
+
+    const ad1 = GoogleAd.create({
+      id: "3883387e-8431-4cf6-ad87-6b274a882ff9",
+      bot: bot1,
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      image: "https://project.s3.region.amazonaws.com/image_3.png",
+      seenOn: "https://www.bbc.com/news/science-environment-54395534",
+      loggedIn: false,
+      headline: "Headline 1",
+      html: "innerHTML",
+      adLink: "www.donuts.com/",
+    });
+
+    const ad2 = GoogleAd.create({
+      id: "3883387e-8431-4cf6-ad87-6b274a882ff1",
+      bot: bot1,
+      createdAt: new Date("2020-11-01T23:52:56.000Z"),
+      image: "https://project.s3.region.amazonaws.com/image_3.png",
+      seenOn: "https://www.bbc.com/news/science-environment-54395534",
+      loggedIn: false,
+      headline: "Headline 1",
+      html: "innerHTML",
+      adLink: "www.donuts.com/",
+    });
+
+    await GoogleAd.save([ad1, ad2]);
+
+    const adTagsData: DeepPartial<GoogleAdTag>[] = [
+      {
+        ad: ad2,
+        tag: tag1,
+      },
+      {
+        ad: ad2,
+        tag: tag2,
+      },
+    ];
+    const adTags = adTagsData.map((a) => GoogleAdTag.create(a));
+    await GoogleAdTag.save(adTags);
+
+    done();
+  });
+
+  afterEach(async (done) => {
+    await connection.clear();
+    done();
+  });
+  test("Delete existing ad-tag (valid id) #API-14", async (done) => {
+    const adWithTag = (
+      await supertest(app).get("/google/ads")
+    ).body.records.filter((ad: any) => ad.tags.length >= 2)[0];
+
+    const existingAdTag = adWithTag.tags[0];
+
+    const res = await supertest(app)
+      .delete(`/google/ads/${adWithTag.id}/tags/${existingAdTag.id}`)
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const adAfterDelete = (
+      await supertest(app).get(`/google/ads/${adWithTag.id}`)
+    ).body;
+
+    // Check that the ad tag was deleted
+    expect(adAfterDelete.tags).not.toEqual(
+      expect.arrayContaining([existingAdTag])
+    );
+
+    // Check that the remaining tags are the same
+    expect(adAfterDelete.tags).toEqual(
+      expect.arrayContaining(adWithTag.tags.slice(1))
+    );
+    done();
+  });
+
+  test("Delete existing ad-tag (invalid ad id) #API-15-1", async (done) => {
+    const aTag = (await supertest(app).get("/google/tags")).body[0];
+    const invalidAdId = "invalid-id";
+    const res = await supertest(app)
+      .delete(`/google/ads/${invalidAdId}/tags/${aTag.id}`)
+      .expect("Content-Type", /json/)
+      .expect(404);
+    done();
+  });
+  test("Delete existing ad-tag (invalid tag id) #API-15-2", async (done) => {
+    const validAd = (await supertest(app).get("/google/ads")).body.records[0];
+    const allTags = (await supertest(app).get("/google/tags")).body;
+
+    const tagNotInAd = allTags.find(
+      (tag: any) => tag.id !== validAd.tags[0].id
+    );
+    const res = await supertest(app)
+      .delete(`/google/ads/${validAd.id}/tags/${tagNotInAd}`)
+      .expect("Content-Type", /json/)
+      .expect(404);
+
+    const adAfterDelete = (await supertest(app).get("/google/ads")).body
+      .records[0];
+
+    // Check that ad remains the same
+    expect(adAfterDelete).toEqual(validAd);
     done();
   });
 });

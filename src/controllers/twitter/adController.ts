@@ -1,3 +1,4 @@
+import e from "cors";
 import { DeleteResult, FindManyOptions, In } from "typeorm";
 import { TwitterAd, TwitterAdSeenByBot, TwitterAdTag } from "~/models";
 import { PaginationParams, TwitterAdFilterParams } from "~/typings/global";
@@ -254,10 +255,15 @@ export class TwitterAdController {
   }
 
   async getById(id: string): Promise<TwitterAd> {
-    return await TwitterAd.findOneOrFail({
-      where: { id },
-      relations: ["adTags", "adTags.tag"],
+    let ad: any = await TwitterAd.findOneOrFail({
+      relations: ["adBot", "adBot.bot", "adTags", "adTags.tag"],
+      where: {
+        id,
+      },
     });
+    ad.seenInstances = ad.adBot;
+    delete ad.adBot;
+    return ad;
   }
 
   /**
