@@ -1,4 +1,3 @@
-import { botAlignmentStatDef, dataDef } from "../definitions/google/googleStatDef.swagger";
 import {
   botAlignmentStatDef,
   dataDef,
