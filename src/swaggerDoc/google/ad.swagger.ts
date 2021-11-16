@@ -1,3 +1,6 @@
+import { googleAdDef } from "../definitions/google/googleAdDef.swagger";
+import { googleBotDef } from "../definitions/google/googleBotDef.swagger";
+import { googleTagDef } from "../definitions/google/googleTagDef.swagger";
 import { paginationMetadataDef } from "../definitions/paginationMetadataDef.swagger";
 
 export const ad = {
