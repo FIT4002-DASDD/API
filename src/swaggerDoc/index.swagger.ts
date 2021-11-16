@@ -1,6 +1,6 @@
-import { googleAdDef } from "./definitions/adDef.swagger";
-import { googleBotDef } from "./definitions/botDef.swagger";
-import { googleTagDef } from "./definitions/tagDef.swagger";
+import { googleAdDef } from "./definitions/google/googleAdDef.swagger";
+import { googleBotDef } from "./definitions/google/googleBotDef.swagger";
+import { googleTagDef } from "./definitions/google/googleTagDef.swagger";
 import { googleSwagger } from "./google";
 const env = process.env;
 
