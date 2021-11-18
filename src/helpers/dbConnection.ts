@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:19:03 pm
+ * Modified By: Sara Tran
+ */
+
 import { Connection, createConnection, getConnection } from "typeorm";
 import ORMConfig from "~/configs/ormconfig";
 

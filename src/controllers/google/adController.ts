@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:16:14 pm
+ * Modified By: Sara Tran
+ */
+
 import { DeleteResult, FindManyOptions, In } from "typeorm";
 import { GoogleAd, GoogleAdTag } from "~/models";
 import { GoogleAdFilterParams, PaginationParams } from "~/typings/global";

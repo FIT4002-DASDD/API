@@ -1,6 +1,9 @@
-import { googleAdDef } from "../definitions/google/googleAdDef.swagger";
-import { googleBotDef } from "../definitions/google/googleBotDef.swagger";
-import { googleTagDef } from "../definitions/google/googleTagDef.swagger";
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:22:26 pm
+ * Modified By: Sara Tran
+ */
 import { paginationMetadataDef } from "../definitions/paginationMetadataDef.swagger";
 
 export const ad = {

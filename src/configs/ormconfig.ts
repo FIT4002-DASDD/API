@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:16:04 pm
+ * Modified By: Sara Tran
+ */
+
 import path, { join } from "path";
 import { config } from "./config";
 // const result = dotenv.config();

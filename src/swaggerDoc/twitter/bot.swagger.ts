@@ -1,4 +1,9 @@
-import { twitterBotDef } from "../definitions/twitter/twitterBotDef.swagger";
+/*
+ * Author: Xi Zhang
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:22:54 pm
+ * Modified By: Sara Tran
+ */ import { twitterBotDef } from "../definitions/twitter/twitterBotDef.swagger";
 
 export const bot = {
   "/twitter/bots": {

@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:17:30 pm
+ * Modified By: Sara Tran
+ */
+
 import { TwitterTag } from "~/models";
 
 export class TwitterTagController {

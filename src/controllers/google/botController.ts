@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:16:19 pm
+ * Modified By: Sara Tran
+ */
+
 import { GoogleBot } from "~/models";
 
 export class GoogleBotController {

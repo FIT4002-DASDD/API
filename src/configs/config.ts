@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:15:43 pm
+ * Modified By: Sara Tran
+ */
+
 import dotenv from "dotenv";
 import path from "path";
 const env = process.env;

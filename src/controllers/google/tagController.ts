@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:16:32 pm
+ * Modified By: Sara Tran
+ */
+
 import { GoogleTag } from "~/models";
 
 export class GoogleTagController {

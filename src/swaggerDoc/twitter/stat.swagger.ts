@@ -1,4 +1,13 @@
-import { botAlignmentStatDef, dataDef } from "../definitions/twitter/twitterStatDef.swagger";
+/*
+ * Author: Xi Zhang
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:22:54 pm
+ * Modified By: Sara Tran
+ */
+import {
+  botAlignmentStatDef,
+  dataDef,
+} from "../definitions/twitter/twitterStatDef.swagger";
 
 export const stat = {
   "/twitter/stats/bot-alignment": {

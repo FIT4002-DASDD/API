@@ -1,3 +1,9 @@
+/*
+ * Author: Sara Tran, Xi Zhang
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:21:34 pm
+ * Modified By: Sara Tran
+ */
 import express, { NextFunction, Request, Response } from "express";
 import { GoogleAdController } from "~/controllers/google/adController";
 import paginate from "~/helpers/paginate";

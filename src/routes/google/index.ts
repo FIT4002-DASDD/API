@@ -1,3 +1,9 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:21:38 pm
+ * Modified By: Sara Tran
+ */
 import express from "express";
 import { googleAdRoute } from "./ad";
 import { googleBotRoute } from "./bot";

@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran, Andy Zhan
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:16:26 pm
+ * Modified By: Sara Tran
+ */
+
 import { getConnection } from "typeorm";
 import { GoogleAd, GoogleAdTag, GoogleBot } from "~/models";
 

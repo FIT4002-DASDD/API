@@ -1,4 +1,9 @@
-import { googleBotDef } from "../definitions/google/googleBotDef.swagger";
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:22:34 pm
+ * Modified By: Sara Tran
+ */
 
 export const bot = {
   "/google/bots": {

@@ -1,3 +1,9 @@
+/*
+ * Author: Sara Tran, Xi Zhang
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:21:56 pm
+ * Modified By: Sara Tran
+ */
 import express, { NextFunction, Request, Response } from "express";
 import { TwitterAdController } from "~/controllers";
 import paginate from "~/helpers/paginate";

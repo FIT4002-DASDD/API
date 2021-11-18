@@ -1,4 +1,9 @@
-import e from "cors";
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:16:59 pm
+ * Modified By: Sara Tran
+ */
 import { DeleteResult, FindManyOptions, In } from "typeorm";
 import { TwitterAd, TwitterAdSeenByBot, TwitterAdTag } from "~/models";
 import { PaginationParams, TwitterAdFilterParams } from "~/typings/global";

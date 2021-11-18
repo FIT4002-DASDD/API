@@ -1,3 +1,10 @@
+/*
+ * Author: Sara Tran
+ * -----
+ * Last Modified: Thursday, 18th November 2021 9:19:14 pm
+ * Modified By: Sara Tran
+ */
+
 import { NextFunction, Request, Response } from "express";
 import { PaginationMetadata } from "~/typings/global";
 
