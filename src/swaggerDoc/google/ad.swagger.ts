@@ -47,8 +47,14 @@ export const ad = {
         {
           in: "query",
           name: "political",
-          description:
-            "Filter ads with one or more of the given bot political rankings",
+          description: `Filter ads with one or more of the given bot political rankings
+          Valid values: 0, 1, 2, 3, 4
+          LEFT = 0,
+          CENTRE_LEFT = 1,
+          CENTRE = 2,
+          CENTRE_RIGHT = 3,
+          RIGHT = 4,
+          `,
           required: false,
           type: "array",
           collectionFormat: "multi",
@@ -59,7 +65,8 @@ export const ad = {
         {
           in: "query",
           name: "gender",
-          description: "Filter ads with one or more of the given bot genders",
+          description:
+            "Filter ads with one or more of the given bot genders. Valid values = {female, male}",
           required: false,
           type: "array",
           collectionFormat: "multi",
@@ -81,7 +88,8 @@ export const ad = {
         {
           in: "query",
           name: "bots",
-          description: "Bots to filter by",
+          description:
+            "Bot ids to filter by e.g. f7bd2258-a38e-4388-b05e-27c6c89956f6",
           required: false,
           type: "array",
           collectionFormat: "multi",
