@@ -181,5 +181,7 @@ Also include the test case ID at the end of the test description for easy tracki
 
 ## Viewing API documentation
 
-- Start the development server and go to `localhost:5000/doc/` to view the API doc
+- To view the Swagger API doc for the online version of the dashboard, visit: `http://dasdd-env.eba-vjkephmj.ap-southeast-2.elasticbeanstalk.com/api/doc/`
+
+- To view the Swagger API doc locally, start the development server and go to `localhost:5000/doc/`
 - The API doc is generated based on the files in `src/swaggerDoc`
